@@ -7,13 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS-ADF-Training"
 		},
-		"LS_destination_password": {
+		"ADVworksMINI_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_destination'"
-		},
-		"lsSTRtoDB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
+			"metadata": "Secure string for 'connectionString' of 'ADVworksMINI'"
 		},
 		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
@@ -23,25 +19,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
 		},
-		"ADVworksMINI_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ADVworksMINI'"
-		},
 		"LS_advWorks_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_advWorks'"
 		},
-		"LS_destination_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		"LS_destination_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_destination'"
 		},
-		"LS_destination_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "ADF"
-		},
-		"LS_destination_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Albin"
+		"lsSTRtoDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
 		},
 		"LS_advWorks_properties_typeProperties_server": {
 			"type": "string",
@@ -54,101 +42,24 @@
 		"LS_advWorks_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
+		},
+		"LS_destination_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		},
+		"LS_destination_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ADF"
+		},
+		"LS_destination_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_destination')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('LS_destination_properties_typeProperties_server')]",
-					"database": "[parameters('LS_destination_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "Windows",
-					"userName": "[parameters('LS_destination_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_destination_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IR-self')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/lsSTRtoDB')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('lsSTRtoDB_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/1-DBtoDB')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -1043,6 +954,145 @@
 				"lastPublishTime": "2024-05-22T11:45:06Z"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AZtoDB')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"description": "copying customer from Cloud ot local",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable5",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Project"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Customer')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable5')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DBtoDB')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"description": "copying emp to local",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "emp",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable6",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Project"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/emp')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable6')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PL-1')]",
@@ -2835,6 +2885,48 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "customers1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "emp"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_destination')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/USsales')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2936,6 +3028,98 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_destination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/emp')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_advWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "BusinessEntityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NationalIDNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoginID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrganizationNode",
+						"type": "hierarchyid"
+					},
+					{
+						"name": "OrganizationLevel",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "JobTitle",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BirthDate",
+						"type": "date"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "nchar"
+					},
+					{
+						"name": "Gender",
+						"type": "nchar"
+					},
+					{
+						"name": "HireDate",
+						"type": "date"
+					},
+					{
+						"name": "SalariedFlag",
+						"type": "bit"
+					},
+					{
+						"name": "VacationHours",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "SickLeaveHours",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "CurrentFlag",
+						"type": "bit"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "HumanResources",
+					"table": "Employee"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_advWorks')]"
 			]
 		},
 		{
@@ -3059,6 +3243,38 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LS_advWorks')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -3085,6 +3301,63 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_destination')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LS_destination_properties_typeProperties_server')]",
+					"database": "[parameters('LS_destination_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": false,
+					"authenticationType": "Windows",
+					"userName": "[parameters('LS_destination_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_destination_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lsSTRtoDB')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('lsSTRtoDB_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IR-self')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CustDue')]",

@@ -5,10 +5,7 @@
 		"factoryName": {
 			"value": "DS-ADF-Training"
 		},
-		"LS_destination_password": {
-			"value": ""
-		},
-		"lsSTRtoDB_connectionString": {
+		"ADVworksMINI_connectionString": {
 			"value": ""
 		},
 		"AzureBlobStorage1_connectionString": {
@@ -17,20 +14,14 @@
 		"AzureBlobStorage2_connectionString": {
 			"value": ""
 		},
-		"ADVworksMINI_connectionString": {
-			"value": ""
-		},
 		"LS_advWorks_password": {
 			"value": ""
 		},
-		"LS_destination_properties_typeProperties_server": {
-			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		"LS_destination_password": {
+			"value": ""
 		},
-		"LS_destination_properties_typeProperties_database": {
-			"value": "ADF"
-		},
-		"LS_destination_properties_typeProperties_userName": {
-			"value": "Albin"
+		"lsSTRtoDB_connectionString": {
+			"value": ""
 		},
 		"LS_advWorks_properties_typeProperties_server": {
 			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
@@ -39,6 +30,15 @@
 			"value": "AdventureWorks2008R2"
 		},
 		"LS_advWorks_properties_typeProperties_userName": {
+			"value": "Albin"
+		},
+		"LS_destination_properties_typeProperties_server": {
+			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		},
+		"LS_destination_properties_typeProperties_database": {
+			"value": "ADF"
+		},
+		"LS_destination_properties_typeProperties_userName": {
 			"value": "Albin"
 		}
 	}

@@ -7,13 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS-ADF-Training"
 		},
-		"LS_destination_password": {
+		"ADVworksMINI_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_destination'"
-		},
-		"lsSTRtoDB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
+			"metadata": "Secure string for 'connectionString' of 'ADVworksMINI'"
 		},
 		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
@@ -23,25 +19,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
 		},
-		"ADVworksMINI_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ADVworksMINI'"
-		},
 		"LS_advWorks_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_advWorks'"
 		},
-		"LS_destination_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		"LS_destination_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_destination'"
 		},
-		"LS_destination_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "ADF"
-		},
-		"LS_destination_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Albin"
+		"lsSTRtoDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
 		},
 		"LS_advWorks_properties_typeProperties_server": {
 			"type": "string",
@@ -52,6 +40,18 @@
 			"defaultValue": "AdventureWorks2008R2"
 		},
 		"LS_advWorks_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
+		},
+		"LS_destination_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		},
+		"LS_destination_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ADF"
+		},
+		"LS_destination_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
 		},
@@ -82,20 +82,29 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ADVworksMINI_connectionString": {
+						"value": "[parameters('ADVworksMINI_connectionString')]"
+					},
 					"AzureBlobStorage2_connectionString": {
 						"value": "[parameters('AzureBlobStorage2_connectionString')]"
 					},
-					"ADVworksMINI_connectionString": {
-						"value": "[parameters('ADVworksMINI_connectionString')]"
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"LS_advWorks_password": {
+						"value": "[parameters('LS_advWorks_password')]"
 					},
 					"LS_destination_password": {
 						"value": "[parameters('LS_destination_password')]"
 					},
-					"lsSTRtoDB_connectionString": {
-						"value": "[parameters('lsSTRtoDB_connectionString')]"
+					"LS_advWorks_properties_typeProperties_server": {
+						"value": "[parameters('LS_advWorks_properties_typeProperties_server')]"
 					},
-					"AzureBlobStorage1_connectionString": {
-						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					"LS_advWorks_properties_typeProperties_database": {
+						"value": "[parameters('LS_advWorks_properties_typeProperties_database')]"
+					},
+					"LS_advWorks_properties_typeProperties_userName": {
+						"value": "[parameters('LS_advWorks_properties_typeProperties_userName')]"
 					},
 					"LS_destination_properties_typeProperties_server": {
 						"value": "[parameters('LS_destination_properties_typeProperties_server')]"
@@ -124,17 +133,8 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"LS_advWorks_password": {
-						"value": "[parameters('LS_advWorks_password')]"
-					},
-					"LS_advWorks_properties_typeProperties_server": {
-						"value": "[parameters('LS_advWorks_properties_typeProperties_server')]"
-					},
-					"LS_advWorks_properties_typeProperties_database": {
-						"value": "[parameters('LS_advWorks_properties_typeProperties_database')]"
-					},
-					"LS_advWorks_properties_typeProperties_userName": {
-						"value": "[parameters('LS_advWorks_properties_typeProperties_userName')]"
+					"lsSTRtoDB_connectionString": {
+						"value": "[parameters('lsSTRtoDB_connectionString')]"
 					}
 				}
 			},

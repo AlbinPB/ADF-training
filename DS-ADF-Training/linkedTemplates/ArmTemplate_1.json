@@ -7,21 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS-ADF-Training"
 		},
-		"LS_advWorks_password": {
+		"lsSTRtoDB_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_advWorks'"
-		},
-		"LS_advWorks_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
-		},
-		"LS_advWorks_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "AdventureWorks2008R2"
-		},
-		"LS_advWorks_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Albin"
+			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
 		}
 	},
 	"variables": {
@@ -29,23 +17,14 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_advWorks')]",
+			"name": "[concat(parameters('factoryName'), '/lsSTRtoDB')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "SqlServer",
+				"type": "AzureBlobStorage",
 				"typeProperties": {
-					"server": "[parameters('LS_advWorks_properties_typeProperties_server')]",
-					"database": "[parameters('LS_advWorks_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "Windows",
-					"userName": "[parameters('LS_advWorks_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_advWorks_password')]"
-					}
+					"connectionString": "[parameters('lsSTRtoDB_connectionString')]"
 				},
 				"connectVia": {
 					"referenceName": "IR-self",
@@ -575,7 +554,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsSTRtoDB')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText4')]",
@@ -634,7 +615,9 @@
 					}
 				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsSTRtoDB')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText5')]",
@@ -818,9 +801,7 @@
 					"table": "Employee"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_advWorks')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Json1')]",
@@ -999,6 +980,44 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "customers1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "emp"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/USsales')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1043,190 +1062,9 @@
 					}
 				]
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/des_employee')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_destination",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "jobtitle",
-						"type": "varchar"
-					},
-					{
-						"name": "Birthdate",
-						"type": "date"
-					},
-					{
-						"name": "Gender",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "1000"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CustDue')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "project"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Customer",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						},
-						{
-							"dataset": {
-								"referenceName": "SalesOrderHeader",
-								"type": "DatasetReference"
-							},
-							"name": "source2"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable4",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select1"
-						},
-						{
-							"name": "select2"
-						},
-						{
-							"name": "join1"
-						},
-						{
-							"name": "aggregate1"
-						},
-						{
-							"name": "rank2"
-						},
-						{
-							"name": "sort1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          CustomerID as integer,",
-						"          NameStyle as boolean,",
-						"          Title as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          Suffix as string,",
-						"          CompanyName as string,",
-						"          SalesPerson as string,",
-						"          EmailAddress as string,",
-						"          Phone as string,",
-						"          PasswordHash as string,",
-						"          PasswordSalt as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source1",
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as integer,",
-						"          OrderDate as timestamp,",
-						"          DueDate as timestamp,",
-						"          ShipDate as timestamp,",
-						"          Status as integer,",
-						"          OnlineOrderFlag as boolean,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          ShipToAddressID as integer,",
-						"          BillToAddressID as integer,",
-						"          ShipMethod as string,",
-						"          CreditCardApprovalCode as string,",
-						"          SubTotal as decimal(19,4),",
-						"          TaxAmt as decimal(19,4),",
-						"          Freight as decimal(19,4),",
-						"          TotalDue as decimal(19,4),",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source2",
-						"source1 select(mapColumn(",
-						"          CustomerID,",
-						"          FirstName,",
-						"          MiddleName,",
-						"          LastName,",
-						"          EmailAddress,",
-						"          Phone",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"source2 select(mapColumn(",
-						"          OrderDate,",
-						"          DueDate,",
-						"          CustomerID,",
-						"          TotalDue",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"select1, select2 join(select1@CustomerID == select2@CustomerID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join1",
-						"join1 aggregate(groupBy(select1@CustomerID,",
-						"          FirstName,",
-						"          MiddleName),",
-						"     DUES = sum(TotalDue)) ~> aggregate1",
-						"aggregate1 rank(desc(DUES, true),",
-						"     output(rank as long),",
-						"     dense: true) ~> rank2",
-						"rank2 sort(asc(rank, true)) ~> sort1",
-						"sort1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lsSTRtoDB')]"
+			]
 		}
 	]
 }

@@ -7,25 +7,37 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS-ADF-Training"
 		},
+		"ADVworksMINI_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ADVworksMINI'"
+		},
 		"AzureBlobStorage2_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
 		},
-		"ADVworksMINI_connectionString": {
+		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ADVworksMINI'"
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"LS_advWorks_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_advWorks'"
 		},
 		"LS_destination_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_destination'"
 		},
-		"lsSTRtoDB_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
+		"LS_advWorks_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
 		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		"LS_advWorks_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AdventureWorks2008R2"
+		},
+		"LS_advWorks_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
 		},
 		"LS_destination_properties_typeProperties_server": {
 			"type": "string",
@@ -44,29 +56,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/IR-self')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/6-web activity post')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -122,70 +111,27 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_destination')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('LS_destination_properties_typeProperties_server')]",
-					"database": "[parameters('LS_destination_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "Windows",
-					"userName": "[parameters('LS_destination_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_destination_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/lsSTRtoDB')]",
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureBlobStorage",
 				"typeProperties": {
-					"connectionString": "[parameters('lsSTRtoDB_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
+					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/IR-self')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
+				"type": "SelfHosted",
+				"typeProperties": {}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ADVmini')]",
@@ -938,6 +884,81 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_advWorks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LS_advWorks_properties_typeProperties_server')]",
+					"database": "[parameters('LS_advWorks_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": false,
+					"authenticationType": "Windows",
+					"userName": "[parameters('LS_advWorks_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_advWorks_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_destination')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LS_destination_properties_typeProperties_server')]",
+					"database": "[parameters('LS_destination_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": false,
+					"authenticationType": "Windows",
+					"userName": "[parameters('LS_destination_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_destination_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
 			]
 		}
 	]
