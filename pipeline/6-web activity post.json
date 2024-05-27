@@ -1,0 +1,35 @@
+{
+	"name": "6-web activity post",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://dummy.restapiexample.com/api/v1/create",
+					"body": {
+						"name": "albin",
+						"salary": "1000",
+						"age": "23"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "assignment"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-05-22T11:45:06Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

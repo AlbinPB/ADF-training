@@ -1,0 +1,21 @@
+{
+	"name": "LS_destination",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "DESKTOP-PIKNNDF\\SQLEXPRESS01",
+			"database": "ADF",
+			"encrypt": "optional",
+			"trustServerCertificate": false,
+			"authenticationType": "Windows",
+			"userName": "Albin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmZGNjNWM2ZS1lNzRhLTRkZjctOTZiOC03MDQ0NjRkNDM4ZTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IR-self",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

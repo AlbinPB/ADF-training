@@ -1,0 +1,17 @@
+{
+	"name": "SqlServerTable3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_destination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "allSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

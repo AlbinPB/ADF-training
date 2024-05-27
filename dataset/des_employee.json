@@ -1,0 +1,30 @@
+{
+	"name": "des_employee",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_destination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "jobtitle",
+				"type": "varchar"
+			},
+			{
+				"name": "Birthdate",
+				"type": "date"
+			},
+			{
+				"name": "Gender",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "1000"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
