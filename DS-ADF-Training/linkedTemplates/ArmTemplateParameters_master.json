@@ -23,6 +23,9 @@
 		"lsSTRtoDB_connectionString": {
 			"value": ""
 		},
+		"AzureBlobStorage3_connectionString": {
+			"value": ""
+		},
 		"LS_advWorks_properties_typeProperties_server": {
 			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
 		},
@@ -40,6 +43,9 @@
 		},
 		"LS_destination_properties_typeProperties_userName": {
 			"value": "Albin"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://jsonplaceholder.typicode.com/todos"
 		},
 		"containerUri": {
 			"value": ""
