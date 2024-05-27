@@ -12,14 +12,14 @@
 						"referenceName": "Customer",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "cust"
 				},
 				{
 					"dataset": {
 						"referenceName": "SalesOrderHeader",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "sales"
 				}
 			],
 			"sinks": [
@@ -39,10 +39,10 @@
 					"name": "select2"
 				},
 				{
-					"name": "join1"
+					"name": "CustID"
 				},
 				{
-					"name": "aggregate1"
+					"name": "DueSUM"
 				},
 				{
 					"name": "rank2"
@@ -72,7 +72,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table') ~> cust",
 				"source(output(",
 				"          SalesOrderID as integer,",
 				"          RevisionNumber as integer,",
@@ -100,8 +100,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
-				"source1 select(mapColumn(",
+				"     format: 'table') ~> sales",
+				"cust select(mapColumn(",
 				"          CustomerID,",
 				"          FirstName,",
 				"          MiddleName,",
@@ -111,7 +111,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"source2 select(mapColumn(",
+				"sales select(mapColumn(",
 				"          OrderDate,",
 				"          DueDate,",
 				"          CustomerID,",
@@ -123,12 +123,11 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 aggregate(groupBy(select1@CustomerID,",
-				"          FirstName,",
-				"          MiddleName),",
-				"     DUES = sum(TotalDue)) ~> aggregate1",
-				"aggregate1 rank(desc(DUES, true),",
+				"     broadcast: 'auto')~> CustID",
+				"CustID aggregate(groupBy(select1@CustomerID,",
+				"          FirstName),",
+				"     DUES = sum(TotalDue)) ~> DueSUM",
+				"DueSUM rank(desc(DUES, true),",
 				"     output(rank as long),",
 				"     dense: true) ~> rank2",
 				"rank2 sort(asc(rank, true)) ~> sort1",

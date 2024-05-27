@@ -46,16 +46,16 @@
 					"name": "select2"
 				},
 				{
-					"name": "join1"
+					"name": "productID"
 				},
 				{
-					"name": "join2"
+					"name": "catID"
 				},
 				{
 					"name": "select3"
 				},
 				{
-					"name": "aggregate1"
+					"name": "sum"
 				},
 				{
 					"name": "rank1"
@@ -130,13 +130,13 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1, prodCat join(select2@ProductCategoryID == prodCat@ProductCategoryID,",
+				"     broadcast: 'auto')~> productID",
+				"productID, prodCat join(select2@ProductCategoryID == prodCat@ProductCategoryID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join2",
-				"join2 select(mapColumn(",
+				"     broadcast: 'auto')~> catID",
+				"catID select(mapColumn(",
 				"          ProductCategoryID = prodCat@ProductCategoryID,",
 				"          Name,",
 				"          LineTotal",
@@ -145,8 +145,8 @@
 				"     skipDuplicateMapOutputs: true) ~> select3",
 				"select3 aggregate(groupBy(ProductCategoryID,",
 				"          Name),",
-				"     Total = sum(LineTotal)) ~> aggregate1",
-				"aggregate1 rank(asc(Total, true),",
+				"     Total = sum(LineTotal)) ~> sum",
+				"sum rank(asc(Total, true),",
 				"     output(rank as long),",
 				"     dense: true) ~> rank1",
 				"rank1 filter(rank <= 3) ~> filter1",
