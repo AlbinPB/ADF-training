@@ -1,22 +1,19 @@
 {
-	"name": "DelimitedText9",
+	"name": "Json5",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage3",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "data"
-			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
+				"fileName": "todo.json",
+				"container": "project"
+			}
 		},
-		"schema": []
+		"schema": {}
 	}
 }
