@@ -851,7 +851,7 @@
 							"name": "CustomerID"
 						},
 						{
-							"name": "join1"
+							"name": "sales"
 						},
 						{
 							"name": "select1"
@@ -974,7 +974,7 @@
 						"     joinType:'inner',",
 						"     matchType:'exact',",
 						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join1",
+						"     broadcast: 'auto')~> sales",
 						"orderDetail select(mapColumn(",
 						"          SalesOrderID,",
 						"          OrderQty,",
@@ -1007,7 +1007,7 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select4",
-						"join1 derive(TotalPrice = OrderQty*UnitPrice) ~> derivedColumn1",
+						"sales derive(TotalPrice = OrderQty*UnitPrice) ~> derivedColumn1",
 						"derivedColumn1 select(mapColumn(",
 						"          SalesOrderID = select1@SalesOrderID,",
 						"          ProductID = select1@ProductID,",
