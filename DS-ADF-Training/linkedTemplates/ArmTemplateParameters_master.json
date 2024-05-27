@@ -1,0 +1,51 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DS-ADF-Training"
+		},
+		"LS_destination_password": {
+			"value": ""
+		},
+		"lsSTRtoDB_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
+		"ADVworksMINI_connectionString": {
+			"value": ""
+		},
+		"LS_advWorks_password": {
+			"value": ""
+		},
+		"LS_destination_properties_typeProperties_server": {
+			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		},
+		"LS_destination_properties_typeProperties_database": {
+			"value": "ADF"
+		},
+		"LS_destination_properties_typeProperties_userName": {
+			"value": "Albin"
+		},
+		"LS_advWorks_properties_typeProperties_server": {
+			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
+		},
+		"LS_advWorks_properties_typeProperties_database": {
+			"value": "AdventureWorks2008R2"
+		},
+		"LS_advWorks_properties_typeProperties_userName": {
+			"value": "Albin"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
