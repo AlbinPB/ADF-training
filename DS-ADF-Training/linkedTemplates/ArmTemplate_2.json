@@ -13,6 +13,28 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "combined.json",
+						"container": "data"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Json2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -558,14 +580,14 @@
 								"referenceName": "SalesOrderDetail",
 								"type": "DatasetReference"
 							},
-							"name": "source1"
+							"name": "sales"
 						},
 						{
 							"dataset": {
 								"referenceName": "product",
 								"type": "DatasetReference"
 							},
-							"name": "source2"
+							"name": "product"
 						},
 						{
 							"dataset": {
@@ -625,7 +647,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source1",
+						"     format: 'table') ~> sales",
 						"source(output(",
 						"          ProductID as integer,",
 						"          Name as string,",
@@ -648,7 +670,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> source2",
+						"     format: 'table') ~> product",
 						"source(output(",
 						"          ProductCategoryID as integer,",
 						"          ParentProductCategoryID as integer,",
@@ -660,13 +682,13 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> prodCat",
-						"source1 select(mapColumn(",
+						"sales select(mapColumn(",
 						"          ProductID,",
 						"          LineTotal",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select1",
-						"source2 select(mapColumn(",
+						"product select(mapColumn(",
 						"          ProductID,",
 						"          ProductCategoryID",
 						"     ),",
@@ -1732,75 +1754,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable5')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DBtoDB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"description": "copying emp to local",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "emp",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable6",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Project"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/emp')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable6')]"
 			]
 		}
 	]
