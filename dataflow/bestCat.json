@@ -12,14 +12,14 @@
 						"referenceName": "SalesOrderDetail",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "sales"
 				},
 				{
 					"dataset": {
 						"referenceName": "product",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "product"
 				},
 				{
 					"dataset": {
@@ -79,7 +79,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table') ~> sales",
 				"source(output(",
 				"          ProductID as integer,",
 				"          Name as string,",
@@ -102,7 +102,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
+				"     format: 'table') ~> product",
 				"source(output(",
 				"          ProductCategoryID as integer,",
 				"          ParentProductCategoryID as integer,",
@@ -114,13 +114,13 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> prodCat",
-				"source1 select(mapColumn(",
+				"sales select(mapColumn(",
 				"          ProductID,",
 				"          LineTotal",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"source2 select(mapColumn(",
+				"product select(mapColumn(",
 				"          ProductID,",
 				"          ProductCategoryID",
 				"     ),",
