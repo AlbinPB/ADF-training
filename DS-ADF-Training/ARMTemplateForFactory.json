@@ -5609,6 +5609,12 @@
 						},
 						{
 							"name": "window2"
+						},
+						{
+							"name": "difference"
+						},
+						{
+							"name": "difference1"
 						}
 					],
 					"scriptLines": [
@@ -5664,7 +5670,9 @@
 						"     Sum = sum(TotalDue)) ~> byYear",
 						"byYear window(asc(OrderByYear, true),",
 						"     PreviousYearDue = lag(Sum, 1, 0)) ~> window2",
-						"window1 sink(allowSchemaDrift: true,",
+						"window2 derive(Difference = Sum - PreviousYearDue) ~> difference",
+						"window1 derive(Difference = SUM - PreviousMonthDue) ~> difference1",
+						"difference1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -5674,7 +5682,7 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-						"window2 sink(allowSchemaDrift: true,",
+						"difference sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
