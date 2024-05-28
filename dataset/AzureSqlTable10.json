@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable9",
+	"name": "AzureSqlTable10",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ADVworksMINI",
@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "PreviousMonth"
+			"table": "previousYear"
 		}
 	}
 }
