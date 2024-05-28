@@ -1708,12 +1708,13 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "previousMonth",
+								"referenceName": "previousMonth_copy1",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
 									"source1": {},
-									"sink1": {}
+									"sink1": {},
+									"sink2": {}
 								}
 							},
 							"staging": {},
@@ -1738,7 +1739,7 @@
 				"[concat(variables('factoryId'), '/dataflows/orderDetail')]",
 				"[concat(variables('factoryId'), '/dataflows/bestCat')]",
 				"[concat(variables('factoryId'), '/dataflows/CustDue')]",
-				"[concat(variables('factoryId'), '/dataflows/previousMonth')]"
+				"[concat(variables('factoryId'), '/dataflows/previousMonth_copy1')]"
 			]
 		},
 		{
@@ -2108,6 +2109,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable10')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADVworksMINI",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "previousYear"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2318,7 +2340,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "Previous"
+					"table": "PreviousMonth"
 				}
 			},
 			"dependsOn": [
@@ -5529,6 +5551,146 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DelimitedText16')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable9')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/previousMonth_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "project"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText16",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable9",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable10",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select2"
+						},
+						{
+							"name": "window1"
+						},
+						{
+							"name": "aggregate1"
+						},
+						{
+							"name": "cast1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "aggregate2"
+						},
+						{
+							"name": "window2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as date,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as string,",
+						"          SalesPersonID as string,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as integer,",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 select(mapColumn(",
+						"          OrderDate,",
+						"          TotalDue",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"aggregate1 window(asc(OrderByMonth, true),",
+						"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
+						"derivedColumn1 aggregate(groupBy(OrderByMonth,",
+						"          OrderByYear),",
+						"     SUM = sum(TotalDue)) ~> aggregate1",
+						"select2 cast(output(",
+						"          OrderDate as date 'yyyy/MM/dd'",
+						"     ),",
+						"     errors: true) ~> cast1",
+						"cast1 derive(OrderByMonth = month(OrderDate),",
+						"          OrderByYear = year(OrderDate)) ~> derivedColumn1",
+						"derivedColumn1 aggregate(groupBy(OrderByYear),",
+						"     Sum = sum(TotalDue)) ~> aggregate2",
+						"aggregate2 window(asc(OrderByYear, true),",
+						"     PreviousYearDue = lag(Sum, 1, 0)) ~> window2",
+						"window1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+						"window2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DelimitedText16')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable9')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable10')]"
 			]
 		}
 	]
