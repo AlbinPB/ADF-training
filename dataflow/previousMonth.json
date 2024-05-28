@@ -1,0 +1,100 @@
+{
+	"name": "previousMonth",
+	"properties": {
+		"folder": {
+			"name": "project"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText16",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "window1"
+				},
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          SalesOrderID as string,",
+				"          RevisionNumber as string,",
+				"          OrderDate as date,",
+				"          DueDate as string,",
+				"          ShipDate as string,",
+				"          Status as string,",
+				"          OnlineOrderFlag as string,",
+				"          SalesOrderNumber as string,",
+				"          PurchaseOrderNumber as string,",
+				"          AccountNumber as string,",
+				"          CustomerID as string,",
+				"          SalesPersonID as string,",
+				"          TerritoryID as string,",
+				"          BillToAddressID as string,",
+				"          ShipToAddressID as string,",
+				"          ShipMethodID as string,",
+				"          CreditCardID as string,",
+				"          CreditCardApprovalCode as string,",
+				"          CurrencyRateID as string,",
+				"          SubTotal as string,",
+				"          TaxAmt as string,",
+				"          Freight as string,",
+				"          TotalDue as integer,",
+				"          Comment as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 select(mapColumn(",
+				"          SalesOrderID,",
+				"          OrderDate,",
+				"          TotalDue",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 select(mapColumn(",
+				"          OrderDate,",
+				"          TotalDue",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"cast1 window(asc(month(OrderDate), true),",
+				"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
+				"aggregate1 cast(output(",
+				"          OrderDate as date 'yyyy/MM/dd'",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"select2 aggregate(groupBy(OrderDate = month(OrderDate)),",
+				"     SUM = sum(TotalDue)) ~> aggregate1",
+				"window1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
