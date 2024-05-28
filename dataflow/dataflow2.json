@@ -60,22 +60,55 @@
 			"sinks": [],
 			"transformations": [
 				{
+					"name": "CustID"
+				},
+				{
+					"name": "salesorders"
+				},
+				{
+					"name": "salesdetails"
+				},
+				{
+					"name": "addresss"
+				},
+				{
+					"name": "addressCust"
+				},
+				{
+					"name": "products"
+				},
+				{
+					"name": "proCat"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "join3"
+				},
+				{
+					"name": "join4"
+				},
+				{
+					"name": "join5"
+				},
+				{
+					"name": "join6"
+				},
+				{
+					"name": "join7"
+				},
+				{
+					"name": "join8"
+				},
+				{
+					"name": "join9"
+				},
+				{
 					"name": "select1"
-				},
-				{
-					"name": "select2"
-				},
-				{
-					"name": "select3"
-				},
-				{
-					"name": "select4"
-				},
-				{
-					"name": "select5"
-				},
-				{
-					"name": "select6"
 				}
 			],
 			"scriptLines": [
@@ -207,7 +240,7 @@
 				"          CustomerID",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     skipDuplicateMapOutputs: true) ~> CustID",
 				"salesorder select(mapColumn(",
 				"          SalesOrderDetailID,",
 				"          OrderQty,",
@@ -215,7 +248,7 @@
 				"          LineTotal",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
+				"     skipDuplicateMapOutputs: true) ~> salesorders",
 				"salesdetail select(mapColumn(",
 				"          SalesOrderID,",
 				"          CustomerID,",
@@ -223,7 +256,7 @@
 				"          TotalDue",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3",
+				"     skipDuplicateMapOutputs: true) ~> salesdetails",
 				"address select(mapColumn(",
 				"          AddressID,",
 				"          AddressLine1,",
@@ -234,20 +267,92 @@
 				"          PostalCode",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select4",
+				"     skipDuplicateMapOutputs: true) ~> addresss",
 				"addressCus select(mapColumn(",
 				"          CustomerID,",
 				"          AddressID",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select5",
+				"     skipDuplicateMapOutputs: true) ~> addressCust",
 				"product select(mapColumn(",
 				"          ProductID,",
 				"          Name,",
 				"          ProductCategoryID",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select6"
+				"     skipDuplicateMapOutputs: true) ~> products",
+				"source1 select(mapColumn(",
+				"          ProductCategoryID,",
+				"          Name",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> proCat",
+				"CustID, salesdetails join(CustID@CustomerID == salesdetails@CustomerID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"salesorders, products join(salesorders@ProductID == products@ProductID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join2",
+				"salesdetails join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join3",
+				"join2, salesdetails join(SalesOrderDetailID == SalesOrderID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join4",
+				"join4, join1 join(salesdetails@CustomerID == CustID@CustomerID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join5",
+				"addresss, addressCust join(addresss@AddressID == addressCust@AddressID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join6",
+				"join5, join6 join(CustID@CustomerID == addressCust@CustomerID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join7",
+				"products, proCat join(products@ProductCategoryID == proCat@ProductCategoryID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join8",
+				"join7, join8 join(products@ProductID == products@ProductID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join9",
+				"join9 select(mapColumn(",
+				"          SalesOrderDetailID,",
+				"          OrderQty,",
+				"          LineTotal,",
+				"          ProductID = products@ProductID,",
+				"          Name = products@Name,",
+				"          ProductCategoryID = products@ProductCategoryID,",
+				"          CustomerID = salesdetails@CustomerID,",
+				"          ShipToAddressID = salesdetails@ShipToAddressID,",
+				"          TotalDue = salesdetails@TotalDue,",
+				"          AddressID = addresss@AddressID,",
+				"          AddressLine1,",
+				"          AddressLine2,",
+				"          City,",
+				"          StateProvince,",
+				"          CountryRegion,",
+				"          PostalCode,",
+				"          Name = proCat@Name",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
