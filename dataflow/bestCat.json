@@ -146,7 +146,7 @@
 				"select3 aggregate(groupBy(ProductCategoryID,",
 				"          Name),",
 				"     Total = sum(LineTotal)) ~> sum",
-				"sum rank(asc(Total, true),",
+				"sum rank(desc(Total, true),",
 				"     output(rank as long),",
 				"     dense: true) ~> rank1",
 				"rank1 filter(rank <= 3) ~> filter1",
