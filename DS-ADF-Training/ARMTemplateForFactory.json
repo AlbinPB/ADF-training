@@ -1648,7 +1648,9 @@
 									"sales": {},
 									"product": {},
 									"prodCat": {},
-									"sink1": {}
+									"sink1": {},
+									"sink2": {},
+									"sink3": {}
 								}
 							},
 							"staging": {},
@@ -2133,8 +2135,8 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "dbo.",
-					"table": "bestCat"
+					"schema": "dbo",
+					"table": "bikes"
 				}
 			},
 			"dependsOn": [
@@ -2223,6 +2225,48 @@
 				"typeProperties": {
 					"schema": "SalesLT",
 					"table": "CustomerAddress"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADVworksMINI",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TopAccessories"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable8')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADVworksMINI",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "accessories"
 				}
 			},
 			"dependsOn": [
@@ -4613,6 +4657,20 @@
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable7",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable8",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
 						}
 					],
 					"transformations": [
@@ -4635,10 +4693,22 @@
 							"name": "sum"
 						},
 						{
+							"name": "split1"
+						},
+						{
 							"name": "rank1"
 						},
 						{
+							"name": "rank2"
+						},
+						{
 							"name": "filter1"
+						},
+						{
+							"name": "surrogateKey1"
+						},
+						{
+							"name": "select4"
 						}
 					],
 					"scriptLines": [
@@ -4723,11 +4793,26 @@
 						"select3 aggregate(groupBy(ProductCategoryID,",
 						"          Name),",
 						"     Total = sum(LineTotal)) ~> sum",
-						"sum rank(desc(Total, true),",
-						"     output(rank as long),",
-						"     dense: true) ~> rank1",
-						"rank1 filter(rank <= 3) ~> filter1",
-						"filter1 sink(allowSchemaDrift: true,",
+						"sum split(like(Name,'%Bikes'),",
+						"     disjoint: false) ~> split1@(Bikes, Accessories)",
+						"split1@Accessories rank(desc(Total, true),",
+						"     output(Rank as long)) ~> rank1",
+						"split1@Accessories rank(desc(Total, true),",
+						"     output(Rank as long)) ~> rank2",
+						"rank2 filter(Rank <= 3) ~> filter1",
+						"rank1 keyGenerate(output(uniqueID as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrogateKey1",
+						"surrogateKey1 select(mapColumn(",
+						"          uniqueID,",
+						"          ProductCategoryID,",
+						"          Name,",
+						"          Total,",
+						"          Rank",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select4",
+						"split1@Bikes sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -4737,7 +4822,27 @@
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+						"filter1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink2",
+						"select4 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink3"
 					]
 				}
 			},
@@ -4745,7 +4850,9 @@
 				"[concat(variables('factoryId'), '/datasets/SalesOrderDetail')]",
 				"[concat(variables('factoryId'), '/datasets/product')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable3')]"
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable3')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable7')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable8')]"
 			]
 		},
 		{
