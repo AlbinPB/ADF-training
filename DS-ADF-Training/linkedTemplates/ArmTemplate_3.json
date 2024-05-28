@@ -1173,16 +1173,16 @@
 							"name": "window1"
 						},
 						{
-							"name": "aggregate1"
+							"name": "byMonth"
 						},
 						{
 							"name": "cast1"
 						},
 						{
-							"name": "derivedColumn1"
+							"name": "addMonthYear"
 						},
 						{
-							"name": "aggregate2"
+							"name": "byYear"
 						},
 						{
 							"name": "window2"
@@ -1226,20 +1226,20 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select2",
-						"aggregate1 window(asc(OrderByMonth, true),",
+						"byMonth window(asc(OrderByYear, true),",
 						"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
-						"derivedColumn1 aggregate(groupBy(OrderByMonth,",
+						"addMonthYear aggregate(groupBy(OrderByMonth,",
 						"          OrderByYear),",
-						"     SUM = sum(TotalDue)) ~> aggregate1",
+						"     SUM = sum(TotalDue)) ~> byMonth",
 						"select2 cast(output(",
 						"          OrderDate as date 'yyyy/MM/dd'",
 						"     ),",
 						"     errors: true) ~> cast1",
 						"cast1 derive(OrderByMonth = month(OrderDate),",
-						"          OrderByYear = year(OrderDate)) ~> derivedColumn1",
-						"derivedColumn1 aggregate(groupBy(OrderByYear),",
-						"     Sum = sum(TotalDue)) ~> aggregate2",
-						"aggregate2 window(asc(OrderByYear, true),",
+						"          OrderByYear = year(OrderDate)) ~> addMonthYear",
+						"addMonthYear aggregate(groupBy(OrderByYear),",
+						"     Sum = sum(TotalDue)) ~> byYear",
+						"byYear window(asc(OrderByYear, true),",
 						"     PreviousYearDue = lag(Sum, 1, 0)) ~> window2",
 						"window1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
