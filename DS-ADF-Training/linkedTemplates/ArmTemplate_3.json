@@ -1192,9 +1192,6 @@
 						},
 						{
 							"name": "difference1"
-						},
-						{
-							"name": "sort1"
 						}
 					],
 					"scriptLines": [
@@ -1236,6 +1233,7 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select2",
 						"byMonth window(asc(OrderByYear, true),",
+						"     asc(OrderByMonth, true),",
 						"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
 						"addMonthYear aggregate(groupBy(OrderByMonth,",
 						"          OrderByYear),",
@@ -1252,9 +1250,7 @@
 						"     PreviousYearDue = lag(Sum, 1, 0)) ~> window2",
 						"window2 derive(Difference = Sum - PreviousYearDue) ~> difference",
 						"window1 derive(Difference = SUM - PreviousMonthDue) ~> difference1",
-						"difference1 sort(asc(OrderByYear, true),",
-						"     asc(OrderByMonth, true)) ~> sort1",
-						"sort1 sink(allowSchemaDrift: true,",
+						"difference1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
