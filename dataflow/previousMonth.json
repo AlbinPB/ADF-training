@@ -17,13 +17,14 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "AzureSqlTable9",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
 			"transformations": [
-				{
-					"name": "select1"
-				},
 				{
 					"name": "select2"
 				},
@@ -31,10 +32,13 @@
 					"name": "window1"
 				},
 				{
-					"name": "cast1"
+					"name": "aggregate1"
 				},
 				{
-					"name": "aggregate1"
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "cast1"
 				}
 			],
 			"scriptLines": [
@@ -70,30 +74,30 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
 				"source1 select(mapColumn(",
-				"          SalesOrderID,",
-				"          OrderDate,",
-				"          TotalDue",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 select(mapColumn(",
 				"          OrderDate,",
 				"          TotalDue",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"cast1 window(asc(month(OrderDate), true),",
+				"derivedColumn1 window(asc(month(OrderDate), true),",
 				"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
+				"select2 aggregate(groupBy(OrderDate = month(OrderDate)),",
+				"     SUM = sum(TotalDue)) ~> aggregate1",
+				"cast1 derive(OrderDate = month(OrderDate)) ~> derivedColumn1",
 				"aggregate1 cast(output(",
 				"          OrderDate as date 'yyyy/MM/dd'",
 				"     ),",
 				"     errors: true) ~> cast1",
-				"select2 aggregate(groupBy(OrderDate = month(OrderDate)),",
-				"     SUM = sum(TotalDue)) ~> aggregate1",
 				"window1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
