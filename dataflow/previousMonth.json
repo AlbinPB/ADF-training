@@ -36,9 +36,6 @@
 				},
 				{
 					"name": "cast1"
-				},
-				{
-					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -79,7 +76,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"derivedColumn1 window(asc(month(OrderDate), true),",
+				"aggregate1 window(asc(month(OrderDate), true),",
 				"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
 				"cast1 aggregate(groupBy(OrderDate = month(OrderDate)),",
 				"     SUM = sum(TotalDue)) ~> aggregate1",
@@ -87,7 +84,6 @@
 				"          OrderDate as date 'yyyy/MM/dd'",
 				"     ),",
 				"     errors: true) ~> cast1",
-				"aggregate1 derive(OrderByMonth = month(OrderDate)) ~> derivedColumn1",
 				"window1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
