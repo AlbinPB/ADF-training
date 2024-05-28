@@ -94,7 +94,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "previousMonth",
+						"referenceName": "previousMonth_copy1",
 						"type": "DataFlowReference"
 					},
 					"compute": {
