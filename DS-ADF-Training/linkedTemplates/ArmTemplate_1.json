@@ -53,6 +53,61 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText13')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "customer.csv",
+						"container": "project"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "PersonID",
+						"type": "String"
+					},
+					{
+						"name": "StoreID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText14')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -220,6 +275,137 @@
 					},
 					{
 						"name": "completed",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText16')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "sales.csv",
+						"container": "project"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
 						"type": "String"
 					}
 				]
@@ -915,233 +1101,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/4-web activity get')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"method": "GET",
-							"headers": {},
-							"url": "https://dummy.restapiexample.com/api/v1/employees"
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Filter1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Filter1').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Stored procedure1",
-									"type": "SqlServerStoredProcedure",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"storedProcedureName": "[[dbo].[sp_insert]",
-										"storedProcedureParameters": {
-											"age": {
-												"value": {
-													"value": "@item().employee_age",
-													"type": "Expression"
-												},
-												"type": "Int32"
-											},
-											"id": {
-												"value": {
-													"value": "@item().id",
-													"type": "Expression"
-												},
-												"type": "Int32"
-											},
-											"name": {
-												"value": {
-													"value": "@item().employee_name",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"salary": {
-												"value": {
-													"value": "@item().employee_salary",
-													"type": "Expression"
-												},
-												"type": "Int32"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "LS_destination",
-										"type": "LinkedServiceReference"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Filter1",
-						"type": "Filter",
-						"dependsOn": [
-							{
-								"activity": "Web1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Web1').output.data",
-								"type": "Expression"
-							},
-							"condition": {
-								"value": "@greaterOrEquals(item().id,5)",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "assignment"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-22T11:45:06Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_destination')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/5-web activity get')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"method": "GET",
-							"headers": {},
-							"url": "https://dummy.restapiexample.com/api/v1/employee/1"
-						}
-					},
-					{
-						"name": "Stored procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "Web1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[sp_insert]",
-							"storedProcedureParameters": {
-								"age": {
-									"value": {
-										"value": "@activity('Web1').output.data.employee_age",
-										"type": "Expression"
-									},
-									"type": "Int32"
-								},
-								"id": {
-									"value": {
-										"value": "@activity('Web1').output.data.id",
-										"type": "Expression"
-									},
-									"type": "Int32"
-								},
-								"name": {
-									"value": {
-										"value": "@activity('Web1').output.data.employee_name",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"salary": {
-									"value": {
-										"value": "@activity('Web1').output.data.employee_salary",
-										"type": "Expression"
-									},
-									"type": "Int32"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "LS_destination",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "assignment"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-22T11:45:06Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_destination')]"
-			]
 		}
 	]
 }

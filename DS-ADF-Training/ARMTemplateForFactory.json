@@ -1662,7 +1662,7 @@
 						}
 					},
 					{
-						"name": "CustDUe",
+						"name": "CustDue",
 						"type": "ExecuteDataFlow",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
@@ -1693,6 +1693,36 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "PreMonth",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "previousMonth",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -1707,7 +1737,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/orderDetail')]",
 				"[concat(variables('factoryId'), '/dataflows/bestCat')]",
-				"[concat(variables('factoryId'), '/dataflows/CustDue')]"
+				"[concat(variables('factoryId'), '/dataflows/CustDue')]",
+				"[concat(variables('factoryId'), '/dataflows/previousMonth')]"
 			]
 		},
 		{
@@ -2274,6 +2305,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable9')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADVworksMINI",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Previous"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Customer')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2779,6 +2831,139 @@
 					},
 					{
 						"name": "completed",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText16')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "sales.csv",
+						"container": "project"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SalesOrderID",
+						"type": "String"
+					},
+					{
+						"name": "RevisionNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrderDate",
+						"type": "String"
+					},
+					{
+						"name": "DueDate",
+						"type": "String"
+					},
+					{
+						"name": "ShipDate",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "OnlineOrderFlag",
+						"type": "String"
+					},
+					{
+						"name": "SalesOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "PurchaseOrderNumber",
+						"type": "String"
+					},
+					{
+						"name": "AccountNumber",
+						"type": "String"
+					},
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "SalesPersonID",
+						"type": "String"
+					},
+					{
+						"name": "TerritoryID",
+						"type": "String"
+					},
+					{
+						"name": "BillToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipToAddressID",
+						"type": "String"
+					},
+					{
+						"name": "ShipMethodID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardID",
+						"type": "String"
+					},
+					{
+						"name": "CreditCardApprovalCode",
+						"type": "String"
+					},
+					{
+						"name": "CurrencyRateID",
+						"type": "String"
+					},
+					{
+						"name": "SubTotal",
+						"type": "String"
+					},
+					{
+						"name": "TaxAmt",
+						"type": "String"
+					},
+					{
+						"name": "Freight",
+						"type": "String"
+					},
+					{
+						"name": "TotalDue",
+						"type": "String"
+					},
+					{
+						"name": "Comment",
+						"type": "String"
+					},
+					{
+						"name": "rowguid",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
 						"type": "String"
 					}
 				]
@@ -5225,6 +5410,125 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DelimitedText13')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText14')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/previousMonth')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "project"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText16",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable9",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select2"
+						},
+						{
+							"name": "window1"
+						},
+						{
+							"name": "aggregate1"
+						},
+						{
+							"name": "cast1"
+						},
+						{
+							"name": "cast2"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          SalesOrderID as string,",
+						"          RevisionNumber as string,",
+						"          OrderDate as date,",
+						"          DueDate as string,",
+						"          ShipDate as string,",
+						"          Status as string,",
+						"          OnlineOrderFlag as string,",
+						"          SalesOrderNumber as string,",
+						"          PurchaseOrderNumber as string,",
+						"          AccountNumber as string,",
+						"          CustomerID as string,",
+						"          SalesPersonID as string,",
+						"          TerritoryID as string,",
+						"          BillToAddressID as string,",
+						"          ShipToAddressID as string,",
+						"          ShipMethodID as string,",
+						"          CreditCardID as string,",
+						"          CreditCardApprovalCode as string,",
+						"          CurrencyRateID as string,",
+						"          SubTotal as string,",
+						"          TaxAmt as string,",
+						"          Freight as string,",
+						"          TotalDue as integer,",
+						"          Comment as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 select(mapColumn(",
+						"          OrderDate,",
+						"          TotalDue",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"cast2 window(asc(OrderByMonth, true),",
+						"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
+						"derivedColumn1 aggregate(groupBy(OrderByMonth,",
+						"          OrderByYear),",
+						"     SUM = sum(TotalDue)) ~> aggregate1",
+						"select2 cast(output(",
+						"          OrderDate as date 'yyyy/MM/dd'",
+						"     ),",
+						"     errors: true) ~> cast1",
+						"aggregate1 cast(output(",
+						"          OrderByMonth as integer",
+						"     ),",
+						"     errors: true) ~> cast2",
+						"cast1 derive(OrderByMonth = month(OrderDate),",
+						"          OrderByYear = year(OrderDate)) ~> derivedColumn1",
+						"window1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DelimitedText16')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable9')]"
 			]
 		}
 	]
