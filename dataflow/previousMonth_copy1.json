@@ -12,7 +12,7 @@
 						"referenceName": "DelimitedText16",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "sales"
 				}
 			],
 			"sinks": [
@@ -91,8 +91,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 select(mapColumn(",
+				"     ignoreNoFilesFound: false) ~> sales",
+				"sales select(mapColumn(",
 				"          OrderDate,",
 				"          TotalDue",
 				"     ),",
