@@ -346,8 +346,6 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup1",
@@ -360,9 +358,21 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "id",
+					"value": {
+						"value": "@activity('Lookup1').output.firstRow.BusinessEntityID",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"id": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
