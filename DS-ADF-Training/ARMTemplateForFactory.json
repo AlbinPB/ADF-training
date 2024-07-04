@@ -1068,13 +1068,35 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"variableName": "",
-							"value": {}
+							"variableName": "id",
+							"value": {
+								"value": "@activity('Lookup1').output.firstRow.BusinessEntityID",
+								"type": "Expression"
+							}
 						}
+					},
+					{
+						"name": "Get Metadata1",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"id": {
+						"type": "String"
+					}
 				},
 				"annotations": []
 			},
