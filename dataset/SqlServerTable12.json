@@ -1,0 +1,16 @@
+{
+	"name": "SqlServerTable12",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_destination",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "empHumans"
+		}
+	}
+}
