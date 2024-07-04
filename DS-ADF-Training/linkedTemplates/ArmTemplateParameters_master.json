@@ -17,6 +17,9 @@
 		"AzureBlobStorage3_connectionString": {
 			"value": ""
 		},
+		"AzureBlobStorage4_connectionString": {
+			"value": ""
+		},
 		"LS_advWorks_password": {
 			"value": ""
 		},

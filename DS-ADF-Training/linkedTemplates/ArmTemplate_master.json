@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage3'"
 		},
+		"AzureBlobStorage4_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage4'"
+		},
 		"LS_advWorks_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_advWorks'"
@@ -99,6 +103,9 @@
 					"AzureBlobStorage3_connectionString": {
 						"value": "[parameters('AzureBlobStorage3_connectionString')]"
 					},
+					"AzureBlobStorage4_connectionString": {
+						"value": "[parameters('AzureBlobStorage4_connectionString')]"
+					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"
 					}
@@ -119,33 +126,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"AzureBlobStorage1_connectionString": {
-						"value": "[parameters('AzureBlobStorage1_connectionString')]"
-					},
-					"LS_advWorks_password": {
-						"value": "[parameters('LS_advWorks_password')]"
-					},
-					"LS_destination_password": {
-						"value": "[parameters('LS_destination_password')]"
-					},
-					"LS_advWorks_properties_typeProperties_server": {
-						"value": "[parameters('LS_advWorks_properties_typeProperties_server')]"
-					},
-					"LS_advWorks_properties_typeProperties_database": {
-						"value": "[parameters('LS_advWorks_properties_typeProperties_database')]"
-					},
-					"LS_advWorks_properties_typeProperties_userName": {
-						"value": "[parameters('LS_advWorks_properties_typeProperties_userName')]"
-					},
-					"LS_destination_properties_typeProperties_server": {
-						"value": "[parameters('LS_destination_properties_typeProperties_server')]"
-					},
-					"LS_destination_properties_typeProperties_database": {
-						"value": "[parameters('LS_destination_properties_typeProperties_database')]"
-					},
-					"LS_destination_properties_typeProperties_userName": {
-						"value": "[parameters('LS_destination_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -167,8 +147,35 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"LS_advWorks_password": {
+						"value": "[parameters('LS_advWorks_password')]"
+					},
+					"LS_destination_password": {
+						"value": "[parameters('LS_destination_password')]"
+					},
 					"lsSTRtoDB_connectionString": {
 						"value": "[parameters('lsSTRtoDB_connectionString')]"
+					},
+					"LS_advWorks_properties_typeProperties_server": {
+						"value": "[parameters('LS_advWorks_properties_typeProperties_server')]"
+					},
+					"LS_advWorks_properties_typeProperties_database": {
+						"value": "[parameters('LS_advWorks_properties_typeProperties_database')]"
+					},
+					"LS_advWorks_properties_typeProperties_userName": {
+						"value": "[parameters('LS_advWorks_properties_typeProperties_userName')]"
+					},
+					"LS_destination_properties_typeProperties_server": {
+						"value": "[parameters('LS_destination_properties_typeProperties_server')]"
+					},
+					"LS_destination_properties_typeProperties_database": {
+						"value": "[parameters('LS_destination_properties_typeProperties_database')]"
+					},
+					"LS_destination_properties_typeProperties_userName": {
+						"value": "[parameters('LS_destination_properties_typeProperties_userName')]"
 					}
 				}
 			},
