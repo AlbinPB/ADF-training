@@ -50,6 +50,9 @@
 		"RestService1_properties_typeProperties_url": {
 			"value": "https://jsonplaceholder.typicode.com/todos"
 		},
+		"RestService2_properties_typeProperties_url": {
+			"value": "https://v6.exchangerate-api.com/v6/latest/USD"
+		},
 		"containerUri": {
 			"value": ""
 		},
