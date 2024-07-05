@@ -1053,32 +1053,6 @@
 						}
 					},
 					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "date",
-							"value": {
-								"value": "@activity('Lookup1').output.ModifiedDate",
-								"type": "Expression"
-							}
-						}
-					},
-					{
 						"name": "ForEach1",
 						"type": "ForEach",
 						"dependsOn": [
@@ -1112,6 +1086,56 @@
 											"value": "@item().BusinessEntityID",
 											"type": "Expression"
 										}
+									}
+								},
+								{
+									"name": "Stored procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Set variable2",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[MarInsert]",
+										"storedProcedureParameters": {
+											"gender": {
+												"value": {
+													"value": "@item().Gender",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"id": {
+												"value": {
+													"value": "@variables('trial')",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"jobTitle": {
+												"value": {
+													"value": "@item().JobTitle",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_destination",
+										"type": "LinkedServiceReference"
 									}
 								}
 							]
@@ -1161,7 +1185,8 @@
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable11')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText18')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText19')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable12')]"
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable12')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_destination')]"
 			]
 		},
 		{
