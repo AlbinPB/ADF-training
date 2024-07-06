@@ -1,0 +1,17 @@
+{
+	"name": "LS_Adv_New",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DESKTOP-PIKNNDF\\SQLEXPRESS;initial catalog=AdventureWorks2008R2",
+			"userName": "Albin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwZTkyZjhlZC0wYzgwLTRiZjktOWUwZS01YjIzNTMxMmMzZTgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IR-self",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
