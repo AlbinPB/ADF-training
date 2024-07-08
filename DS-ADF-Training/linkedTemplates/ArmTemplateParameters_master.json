@@ -20,14 +20,38 @@
 		"AzureBlobStorage4_connectionString": {
 			"value": ""
 		},
+		"LS_Adv_New_connectionString": {
+			"value": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=AdventureWorks2008R2"
+		},
+		"LS_Adv_New_password": {
+			"value": ""
+		},
+		"LS_Des_New_connectionString": {
+			"value": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=ADF"
+		},
+		"LS_Des_New_password": {
+			"value": ""
+		},
 		"LS_advWorks_password": {
 			"value": ""
 		},
 		"LS_destination_password": {
 			"value": ""
 		},
+		"SqlServer1_connectionString": {
+			"value": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=ADF"
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
 		"lsSTRtoDB_connectionString": {
 			"value": ""
+		},
+		"LS_Adv_New_properties_typeProperties_userName": {
+			"value": "Albin"
+		},
+		"LS_Des_New_properties_typeProperties_userName": {
+			"value": "Albin"
 		},
 		"LS_advWorks_properties_typeProperties_server": {
 			"value": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
@@ -52,6 +76,12 @@
 		},
 		"RestService2_properties_typeProperties_url": {
 			"value": "https://v6.exchangerate-api.com/v6/latest/USD"
+		},
+		"RestService3_properties_typeProperties_url": {
+			"value": "https://jsonplaceholder.typicode.com/todos"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "Albin"
 		},
 		"containerUri": {
 			"value": ""

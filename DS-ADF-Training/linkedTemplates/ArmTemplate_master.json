@@ -27,6 +27,24 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage4'"
 		},
+		"LS_Adv_New_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Adv_New'",
+			"defaultValue": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=AdventureWorks2008R2"
+		},
+		"LS_Adv_New_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_Adv_New'"
+		},
+		"LS_Des_New_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Des_New'",
+			"defaultValue": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=ADF"
+		},
+		"LS_Des_New_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_Des_New'"
+		},
 		"LS_advWorks_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_advWorks'"
@@ -35,9 +53,26 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_destination'"
 		},
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'",
+			"defaultValue": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=ADF"
+		},
+		"SqlServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer1'"
+		},
 		"lsSTRtoDB_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
+		},
+		"LS_Adv_New_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
+		},
+		"LS_Des_New_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
 		},
 		"LS_advWorks_properties_typeProperties_server": {
 			"type": "string",
@@ -70,6 +105,14 @@
 		"RestService2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://v6.exchangerate-api.com/v6/latest/USD"
+		},
+		"RestService3_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
 		},
 		"containerUri": {
 			"type": "string",
@@ -115,6 +158,9 @@
 					},
 					"RestService2_properties_typeProperties_url": {
 						"value": "[parameters('RestService2_properties_typeProperties_url')]"
+					},
+					"RestService3_properties_typeProperties_url": {
+						"value": "[parameters('RestService3_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -157,14 +203,38 @@
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
+					"LS_Adv_New_connectionString": {
+						"value": "[parameters('LS_Adv_New_connectionString')]"
+					},
+					"LS_Adv_New_password": {
+						"value": "[parameters('LS_Adv_New_password')]"
+					},
+					"LS_Des_New_connectionString": {
+						"value": "[parameters('LS_Des_New_connectionString')]"
+					},
+					"LS_Des_New_password": {
+						"value": "[parameters('LS_Des_New_password')]"
+					},
 					"LS_advWorks_password": {
 						"value": "[parameters('LS_advWorks_password')]"
 					},
 					"LS_destination_password": {
 						"value": "[parameters('LS_destination_password')]"
 					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
+					},
+					"SqlServer1_password": {
+						"value": "[parameters('SqlServer1_password')]"
+					},
 					"lsSTRtoDB_connectionString": {
 						"value": "[parameters('lsSTRtoDB_connectionString')]"
+					},
+					"LS_Adv_New_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Adv_New_properties_typeProperties_userName')]"
+					},
+					"LS_Des_New_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Des_New_properties_typeProperties_userName')]"
 					},
 					"LS_advWorks_properties_typeProperties_server": {
 						"value": "[parameters('LS_advWorks_properties_typeProperties_server')]"
@@ -183,6 +253,9 @@
 					},
 					"LS_destination_properties_typeProperties_userName": {
 						"value": "[parameters('LS_destination_properties_typeProperties_userName')]"
+					},
+					"SqlServer1_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -228,6 +301,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'DS-ADF-Training_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "DS-ADF-Training_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DS-ADF-Training_ArmTemplate_4')]"
 			]
 		}
 	]

@@ -13,6 +13,381 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Region",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Item Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Priority",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Ship Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Units Sold",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Unit Price",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Cost",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Profit",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "1000"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "customers1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "empP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "json"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable8')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_advWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StoreID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TerritoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AccountNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Sales",
+					"table": "SalesOrderHeader"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable9')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DuesCust"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/USsales')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lsSTRtoDB",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "USSales.csv",
+						"container": "sales"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ProductID",
+						"type": "String"
+					},
+					{
+						"name": "Date",
+						"type": "String"
+					},
+					{
+						"name": "Zip",
+						"type": "String"
+					},
+					{
+						"name": "Units",
+						"type": "String"
+					},
+					{
+						"name": "Revenue",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/des_employee')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "jobtitle",
+						"type": "varchar"
+					},
+					{
+						"name": "Birthdate",
+						"type": "date"
+					},
+					{
+						"name": "Gender",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "1000"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/emp')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_advWorks",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "BusinessEntityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NationalIDNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LoginID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrganizationNode",
+						"type": "hierarchyid"
+					},
+					{
+						"name": "OrganizationLevel",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "JobTitle",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BirthDate",
+						"type": "date"
+					},
+					{
+						"name": "MaritalStatus",
+						"type": "nchar"
+					},
+					{
+						"name": "Gender",
+						"type": "nchar"
+					},
+					{
+						"name": "HireDate",
+						"type": "date"
+					},
+					{
+						"name": "SalariedFlag",
+						"type": "bit"
+					},
+					{
+						"name": "VacationHours",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "SickLeaveHours",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "CurrentFlag",
+						"type": "bit"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "HumanResources",
+					"table": "Employee"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CustDue')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -466,6 +841,77 @@
 						"     updateable:false,",
 						"     upsertable:false,",
 						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/flatten')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "RestResource5",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "flatten",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "flatten1"
+						},
+						{
+							"name": "aggregate1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          body as (completed as boolean, id as short, title as string, userId as short),",
+						"          headers as [string,string]",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     limit: 100,",
+						"     httpMethod: 'GET',",
+						"     timeout: 30,",
+						"     requestInterval: 0,",
+						"     paginationRules: ['supportRFC5988' -> 'true'],",
+						"     responseFormat: ['type' -> 'json', 'documentForm' -> 'arrayOfDocuments']) ~> source1",
+						"aggregate1 foldDown(unroll(body),",
+						"     mapColumn(",
+						"          Completed = body.body.completed,",
+						"          task_id = body.body.id,",
+						"          task_title = body.body.title,",
+						"          userId = body.body.userId",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> flatten1",
+						"source1 aggregate(body = collect(@(body = body))) ~> aggregate1",
+						"flatten1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -1269,7 +1715,9 @@
 				"annotations": [],
 				"lastPublishTime": "2024-05-20T11:32:47Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/USsales')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/3-For')]",
@@ -1628,2677 +2076,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-05-20T11:32:47Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/4-7-24')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SqlServerTable11",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DelimitedText18",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data2",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "BusinessEntityID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BusinessEntityID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NationalIDNumber",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "NationalIDNumber",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "LoginID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "LoginID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "OrganizationNode",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "OrganizationNode",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "OrganizationLevel",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "OrganizationLevel",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "JobTitle",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "JobTitle",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BirthDate",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BirthDate",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "MaritalStatus",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "MaritalStatus",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "HireDate",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "HireDate",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "SalariedFlag",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "SalariedFlag",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "VacationHours",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "VacationHours",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "SickLeaveHours",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "SickLeaveHours",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CurrentFlag",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CurrentFlag",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "rowguid",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "rowguid",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "ModifiedDate",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ModifiedDate",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DelimitedText19",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable12",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "Copy data2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "SqlServerTable12",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Filter2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Filter2').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Set variable2",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "trial",
-										"value": {
-											"value": "@item().BusinessEntityID",
-											"type": "Expression"
-										}
-									}
-								},
-								{
-									"name": "Stored procedure1",
-									"type": "SqlServerStoredProcedure",
-									"dependsOn": [
-										{
-											"activity": "Set variable2",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"storedProcedureName": "[[dbo].[MarInsert]",
-										"storedProcedureParameters": {
-											"gender": {
-												"value": {
-													"value": "@item().Gender",
-													"type": "Expression"
-												},
-												"type": "String"
-											},
-											"id": {
-												"value": {
-													"value": "@variables('trial')",
-													"type": "Expression"
-												},
-												"type": "Int32"
-											},
-											"jobTitle": {
-												"value": {
-													"value": "@item().JobTitle",
-													"type": "Expression"
-												},
-												"type": "String"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "LS_destination",
-										"type": "LinkedServiceReference"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Filter2",
-						"type": "Filter",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup1').output.value",
-								"type": "Expression"
-							},
-							"condition": {
-								"value": "@equals(item().MaritalStatus,'S')",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"id": {
-						"type": "String"
-					},
-					"date": {
-						"type": "String"
-					},
-					"trial": {
-						"type": "String"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AZtoDB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"description": "copying customer from Cloud ot local",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"preCopyScript": "TRUNCATE TABLE [dbo].[customers1]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DelimitedText17",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable10",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Project"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DBtoDB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"description": "copying emp to local",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "emp",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable6",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Project"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL-1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "JobTitle",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "jobtitle",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BirthDate",
-											"type": "DateTime",
-											"physicalType": "date"
-										},
-										"sink": {
-											"name": "Birthdate",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "nchar"
-										},
-										"sink": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "nchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "HR_emp",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-17T03:43:34Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PQuery')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Power Query1",
-						"type": "ExecuteWranglingDataflow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "powerquery1",
-								"type": "DataFlowReference",
-								"datasetParameters": {
-									"DelimitedText13": {},
-									"DelimitedText14": {},
-									"UserQueryAzureSqlTable5": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"queries": [
-								{
-									"queryName": "UserQuery",
-									"dataflowSinks": [
-										{
-											"name": "UserQueryAzureSqlTable5",
-											"dataset": {
-												"referenceName": "AzureSqlTable5",
-												"type": "DatasetReference",
-												"parameters": {}
-											},
-											"script": "sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> UserQueryAzureSqlTable5"
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Project"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/powerquery1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STORAGEtoLOCAL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "Json5",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable7",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Project"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataFLOWS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "orderDetail",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "orderDetail",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"orderDetail": {},
-									"OrderHeader": {},
-									"customer": {},
-									"product": {},
-									"OrderDetails": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "bestCAT",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "orderDetail",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "bestCat",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sales": {},
-									"product": {},
-									"prodCat": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "CustDue",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "bestCAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "CustDue",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"cust": {},
-									"sales": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "PreMonth",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "CustDue",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "previousMonth_copy1",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sales": {},
-									"sink1": {},
-									"sink2": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Project"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-27T09:45:37Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/orderDetail')]",
-				"[concat(variables('factoryId'), '/dataflows/bestCat')]",
-				"[concat(variables('factoryId'), '/dataflows/CustDue')]",
-				"[concat(variables('factoryId'), '/dataflows/previousMonth_copy1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/foreach')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Get Metadata1",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "DelimitedText2",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureBlobStorageReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Get Metadata1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Get Metadata1').output.childItems",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "If Condition1",
-									"type": "IfCondition",
-									"dependsOn": [
-										{
-											"activity": "Get Metadata2",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(item().name,'1000 Sales Records.csv')",
-											"type": "Expression"
-										},
-										"ifTrueActivities": [
-											{
-												"name": "Copy data1",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "DelimitedTextSource",
-														"storeSettings": {
-															"type": "AzureBlobStorageReadSettings",
-															"recursive": true,
-															"enablePartitionDiscovery": false
-														},
-														"formatSettings": {
-															"type": "DelimitedTextReadSettings"
-														}
-													},
-													"sink": {
-														"type": "SqlServerSink",
-														"writeBehavior": "insert",
-														"sqlWriterUseTableLock": false,
-														"tableOption": "autoCreate"
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "DelimitedText1",
-														"type": "DatasetReference",
-														"parameters": {
-															"filename": {
-																"value": "@activity('Get Metadata2').output.itemName",
-																"type": "Expression"
-															}
-														}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "des_employee",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												]
-											}
-										]
-									}
-								},
-								{
-									"name": "Get Metadata2",
-									"type": "GetMetadata",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "DelimitedText1",
-											"type": "DatasetReference",
-											"parameters": {
-												"filename": {
-													"value": "@item().name",
-													"type": "Expression"
-												}
-											}
-										},
-										"fieldList": [
-											"itemName"
-										],
-										"storeSettings": {
-											"type": "AzureBlobStorageReadSettings",
-											"recursive": true,
-											"enablePartitionDiscovery": false
-										},
-										"formatSettings": {
-											"type": "DelimitedTextReadSettings"
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-18T14:26:16Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/lookup')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1_copy1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SqlServerTable8",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DelimitedText12",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-27T11:36:06Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"method": "GET",
-							"headers": {
-								"Authorization": "Bearer 64375de68330e04b396f479d"
-							},
-							"url": "https://v6.exchangerate-api.com/v6/latest/USD"
-						}
-					},
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['base_code']"
-										},
-										"sink": {
-											"name": "base_code"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['USD']"
-										},
-										"sink": {
-											"name": "USD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AED']"
-										},
-										"sink": {
-											"name": "AED"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AFN']"
-										},
-										"sink": {
-											"name": "AFN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ALL']"
-										},
-										"sink": {
-											"name": "ALL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AMD']"
-										},
-										"sink": {
-											"name": "AMD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ANG']"
-										},
-										"sink": {
-											"name": "ANG"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AOA']"
-										},
-										"sink": {
-											"name": "AOA"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ARS']"
-										},
-										"sink": {
-											"name": "ARS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AUD']"
-										},
-										"sink": {
-											"name": "AUD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AWG']"
-										},
-										"sink": {
-											"name": "AWG"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['AZN']"
-										},
-										"sink": {
-											"name": "AZN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BAM']"
-										},
-										"sink": {
-											"name": "BAM"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BBD']"
-										},
-										"sink": {
-											"name": "BBD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BDT']"
-										},
-										"sink": {
-											"name": "BDT"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BGN']"
-										},
-										"sink": {
-											"name": "BGN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BHD']"
-										},
-										"sink": {
-											"name": "BHD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BIF']"
-										},
-										"sink": {
-											"name": "BIF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BMD']"
-										},
-										"sink": {
-											"name": "BMD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BND']"
-										},
-										"sink": {
-											"name": "BND"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BOB']"
-										},
-										"sink": {
-											"name": "BOB"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BRL']"
-										},
-										"sink": {
-											"name": "BRL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BSD']"
-										},
-										"sink": {
-											"name": "BSD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BTN']"
-										},
-										"sink": {
-											"name": "BTN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BWP']"
-										},
-										"sink": {
-											"name": "BWP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BYN']"
-										},
-										"sink": {
-											"name": "BYN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['BZD']"
-										},
-										"sink": {
-											"name": "BZD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CAD']"
-										},
-										"sink": {
-											"name": "CAD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CDF']"
-										},
-										"sink": {
-											"name": "CDF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CHF']"
-										},
-										"sink": {
-											"name": "CHF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CLP']"
-										},
-										"sink": {
-											"name": "CLP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CNY']"
-										},
-										"sink": {
-											"name": "CNY"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['COP']"
-										},
-										"sink": {
-											"name": "COP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CRC']"
-										},
-										"sink": {
-											"name": "CRC"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CUP']"
-										},
-										"sink": {
-											"name": "CUP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CVE']"
-										},
-										"sink": {
-											"name": "CVE"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['CZK']"
-										},
-										"sink": {
-											"name": "CZK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['DJF']"
-										},
-										"sink": {
-											"name": "DJF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['DKK']"
-										},
-										"sink": {
-											"name": "DKK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['DOP']"
-										},
-										"sink": {
-											"name": "DOP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['DZD']"
-										},
-										"sink": {
-											"name": "DZD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['EGP']"
-										},
-										"sink": {
-											"name": "EGP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ERN']"
-										},
-										"sink": {
-											"name": "ERN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ETB']"
-										},
-										"sink": {
-											"name": "ETB"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['EUR']"
-										},
-										"sink": {
-											"name": "EUR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['FJD']"
-										},
-										"sink": {
-											"name": "FJD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['FKP']"
-										},
-										"sink": {
-											"name": "FKP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['FOK']"
-										},
-										"sink": {
-											"name": "FOK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GBP']"
-										},
-										"sink": {
-											"name": "GBP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GEL']"
-										},
-										"sink": {
-											"name": "GEL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GGP']"
-										},
-										"sink": {
-											"name": "GGP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GHS']"
-										},
-										"sink": {
-											"name": "GHS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GIP']"
-										},
-										"sink": {
-											"name": "GIP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GMD']"
-										},
-										"sink": {
-											"name": "GMD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GNF']"
-										},
-										"sink": {
-											"name": "GNF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GTQ']"
-										},
-										"sink": {
-											"name": "GTQ"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['GYD']"
-										},
-										"sink": {
-											"name": "GYD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['HKD']"
-										},
-										"sink": {
-											"name": "HKD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['HNL']"
-										},
-										"sink": {
-											"name": "HNL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['HRK']"
-										},
-										"sink": {
-											"name": "HRK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['HTG']"
-										},
-										"sink": {
-											"name": "HTG"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['HUF']"
-										},
-										"sink": {
-											"name": "HUF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['IDR']"
-										},
-										"sink": {
-											"name": "IDR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ILS']"
-										},
-										"sink": {
-											"name": "ILS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['IMP']"
-										},
-										"sink": {
-											"name": "IMP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['INR']"
-										},
-										"sink": {
-											"name": "INR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['IQD']"
-										},
-										"sink": {
-											"name": "IQD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['IRR']"
-										},
-										"sink": {
-											"name": "IRR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ISK']"
-										},
-										"sink": {
-											"name": "ISK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['JEP']"
-										},
-										"sink": {
-											"name": "JEP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['JMD']"
-										},
-										"sink": {
-											"name": "JMD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['JOD']"
-										},
-										"sink": {
-											"name": "JOD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['JPY']"
-										},
-										"sink": {
-											"name": "JPY"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KES']"
-										},
-										"sink": {
-											"name": "KES"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KGS']"
-										},
-										"sink": {
-											"name": "KGS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KHR']"
-										},
-										"sink": {
-											"name": "KHR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KID']"
-										},
-										"sink": {
-											"name": "KID"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KMF']"
-										},
-										"sink": {
-											"name": "KMF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KRW']"
-										},
-										"sink": {
-											"name": "KRW"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KWD']"
-										},
-										"sink": {
-											"name": "KWD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KYD']"
-										},
-										"sink": {
-											"name": "KYD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['KZT']"
-										},
-										"sink": {
-											"name": "KZT"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['LAK']"
-										},
-										"sink": {
-											"name": "LAK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['LBP']"
-										},
-										"sink": {
-											"name": "LBP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['LKR']"
-										},
-										"sink": {
-											"name": "LKR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['LRD']"
-										},
-										"sink": {
-											"name": "LRD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['LSL']"
-										},
-										"sink": {
-											"name": "LSL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['LYD']"
-										},
-										"sink": {
-											"name": "LYD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MAD']"
-										},
-										"sink": {
-											"name": "MAD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MDL']"
-										},
-										"sink": {
-											"name": "MDL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MGA']"
-										},
-										"sink": {
-											"name": "MGA"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MKD']"
-										},
-										"sink": {
-											"name": "MKD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MMK']"
-										},
-										"sink": {
-											"name": "MMK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MNT']"
-										},
-										"sink": {
-											"name": "MNT"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MOP']"
-										},
-										"sink": {
-											"name": "MOP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MRU']"
-										},
-										"sink": {
-											"name": "MRU"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MUR']"
-										},
-										"sink": {
-											"name": "MUR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MVR']"
-										},
-										"sink": {
-											"name": "MVR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MWK']"
-										},
-										"sink": {
-											"name": "MWK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MXN']"
-										},
-										"sink": {
-											"name": "MXN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MYR']"
-										},
-										"sink": {
-											"name": "MYR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['MZN']"
-										},
-										"sink": {
-											"name": "MZN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['NAD']"
-										},
-										"sink": {
-											"name": "NAD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['NGN']"
-										},
-										"sink": {
-											"name": "NGN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['NIO']"
-										},
-										"sink": {
-											"name": "NIO"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['NOK']"
-										},
-										"sink": {
-											"name": "NOK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['NPR']"
-										},
-										"sink": {
-											"name": "NPR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['NZD']"
-										},
-										"sink": {
-											"name": "NZD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['OMR']"
-										},
-										"sink": {
-											"name": "OMR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PAB']"
-										},
-										"sink": {
-											"name": "PAB"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PEN']"
-										},
-										"sink": {
-											"name": "PEN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PGK']"
-										},
-										"sink": {
-											"name": "PGK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PHP']"
-										},
-										"sink": {
-											"name": "PHP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PKR']"
-										},
-										"sink": {
-											"name": "PKR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PLN']"
-										},
-										"sink": {
-											"name": "PLN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['PYG']"
-										},
-										"sink": {
-											"name": "PYG"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['QAR']"
-										},
-										"sink": {
-											"name": "QAR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['RON']"
-										},
-										"sink": {
-											"name": "RON"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['RSD']"
-										},
-										"sink": {
-											"name": "RSD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['RUB']"
-										},
-										"sink": {
-											"name": "RUB"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['RWF']"
-										},
-										"sink": {
-											"name": "RWF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SAR']"
-										},
-										"sink": {
-											"name": "SAR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SBD']"
-										},
-										"sink": {
-											"name": "SBD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SCR']"
-										},
-										"sink": {
-											"name": "SCR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SDG']"
-										},
-										"sink": {
-											"name": "SDG"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SEK']"
-										},
-										"sink": {
-											"name": "SEK"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SGD']"
-										},
-										"sink": {
-											"name": "SGD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SHP']"
-										},
-										"sink": {
-											"name": "SHP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SLE']"
-										},
-										"sink": {
-											"name": "SLE"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SLL']"
-										},
-										"sink": {
-											"name": "SLL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SOS']"
-										},
-										"sink": {
-											"name": "SOS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SRD']"
-										},
-										"sink": {
-											"name": "SRD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SSP']"
-										},
-										"sink": {
-											"name": "SSP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['STN']"
-										},
-										"sink": {
-											"name": "STN"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SYP']"
-										},
-										"sink": {
-											"name": "SYP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['SZL']"
-										},
-										"sink": {
-											"name": "SZL"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['THB']"
-										},
-										"sink": {
-											"name": "THB"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TJS']"
-										},
-										"sink": {
-											"name": "TJS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TMT']"
-										},
-										"sink": {
-											"name": "TMT"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TND']"
-										},
-										"sink": {
-											"name": "TND"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TOP']"
-										},
-										"sink": {
-											"name": "TOP"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TRY']"
-										},
-										"sink": {
-											"name": "TRY"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TTD']"
-										},
-										"sink": {
-											"name": "TTD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TVD']"
-										},
-										"sink": {
-											"name": "TVD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TWD']"
-										},
-										"sink": {
-											"name": "TWD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['TZS']"
-										},
-										"sink": {
-											"name": "TZS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['UAH']"
-										},
-										"sink": {
-											"name": "UAH"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['UGX']"
-										},
-										"sink": {
-											"name": "UGX"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['UYU']"
-										},
-										"sink": {
-											"name": "UYU"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['UZS']"
-										},
-										"sink": {
-											"name": "UZS"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['VES']"
-										},
-										"sink": {
-											"name": "VES"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['VND']"
-										},
-										"sink": {
-											"name": "VND"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['VUV']"
-										},
-										"sink": {
-											"name": "VUV"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['WST']"
-										},
-										"sink": {
-											"name": "WST"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['XAF']"
-										},
-										"sink": {
-											"name": "XAF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['XCD']"
-										},
-										"sink": {
-											"name": "XCD"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['XDR']"
-										},
-										"sink": {
-											"name": "XDR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['XOF']"
-										},
-										"sink": {
-											"name": "XOF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['XPF']"
-										},
-										"sink": {
-											"name": "XPF"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['YER']"
-										},
-										"sink": {
-											"name": "YER"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ZAR']"
-										},
-										"sink": {
-											"name": "ZAR"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ZMW']"
-										},
-										"sink": {
-											"name": "ZMW"
-										}
-									},
-									{
-										"source": {
-											"path": "$['conversion_rates']['ZWL']"
-										},
-										"sink": {
-											"name": "ZWL"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource3",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable14",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Sharmila"
-				},
-				"annotations": []
 			},
 			"dependsOn": []
 		}
