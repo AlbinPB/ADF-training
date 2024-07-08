@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "RestResource4",
+						"referenceName": "RestResource5",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SqlServerTable14",
+						"referenceName": "flatten",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -24,20 +24,33 @@
 			"transformations": [
 				{
 					"name": "flatten1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          body as (completed as boolean, id as short, title as string, userId as short),",
+				"          headers as [string,string]",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     limit: 100,",
 				"     httpMethod: 'GET',",
 				"     timeout: 30,",
-				"     requestInterval: 0,",
 				"     paginationRules: ['supportRFC5988' -> 'true'],",
-				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> source1",
-				"source1 foldDown(unroll(),",
-				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'arrayOfDocuments']) ~> source1",
+				"aggregate1 foldDown(unroll(body),",
+				"     mapColumn(",
+				"          Completed = body.body.completed,",
+				"          task_id = body.body.id,",
+				"          task_title = body.body.title,",
+				"          userId = body.body.userId",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> flatten1",
+				"source1 aggregate(body = collect(@(body = body))) ~> aggregate1",
 				"flatten1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -46,7 +59,8 @@
 				"     upsertable:false,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
