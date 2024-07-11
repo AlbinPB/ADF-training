@@ -3392,8 +3392,6 @@
 					{
 						"name": "ForEach1",
 						"type": "ForEach",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Lookup1",
@@ -3405,7 +3403,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Lookup1').output",
+								"value": "@activity('Lookup1').output.value",
 								"type": "Expression"
 							},
 							"isSequential": true,
@@ -3422,7 +3420,7 @@
 									"typeProperties": {
 										"variableName": "schema",
 										"value": {
-											"value": "@item().value.SchemaName",
+											"value": "@trim(replace(replace(item().SchemaName, '[', ''), ']', ''))\n",
 											"type": "Expression"
 										}
 									}
@@ -3446,7 +3444,7 @@
 									"typeProperties": {
 										"variableName": "table",
 										"value": {
-											"value": "@item().value.tblname",
+											"value": "@trim(replace(replace(item().tblname, '[', ''), ']', ''))",
 											"type": "Expression"
 										}
 									}
@@ -3479,7 +3477,8 @@
 										"sink": {
 											"type": "SqlServerSink",
 											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate"
 										},
 										"enableStaging": false,
 										"translator": {
