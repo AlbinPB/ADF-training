@@ -138,7 +138,20 @@
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
-								"enableStaging": false
+								"sink": {
+									"type": "SqlServerSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
@@ -147,6 +160,26 @@
 									"parameters": {
 										"schema": {
 											"value": "@variables('schema')",
+											"type": "Expression"
+										},
+										"table": {
+											"value": "@variables('table')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "SqlServerTable17",
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": {
+											"value": "@variables('schema')",
+											"type": "Expression"
+										},
+										"table": {
+											"value": "@variables('table')",
 											"type": "Expression"
 										}
 									}
