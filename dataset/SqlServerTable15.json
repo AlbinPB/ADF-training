@@ -1,0 +1,30 @@
+{
+	"name": "SqlServerTable15",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Des_New",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SchemaName",
+				"type": "varchar"
+			},
+			{
+				"name": "tblname",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tblName"
+		}
+	}
+}

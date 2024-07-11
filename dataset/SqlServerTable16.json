@@ -1,0 +1,30 @@
+{
+	"name": "SqlServerTable16",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Adv_New",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"schema": {
+				"type": "string"
+			},
+			"tabke": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tabke",
+				"type": "Expression"
+			}
+		}
+	}
+}
