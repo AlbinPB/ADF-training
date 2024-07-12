@@ -7,16 +7,21 @@
 				"type": "Until",
 				"dependsOn": [
 					{
-						"activity": "Set variable2",
+						"activity": "Set variable4",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					}
 				],
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "albin",
+						"value": "0"
+					}
+				],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(variables('real'), 5)",
+						"value": "@equals(variables('iter'), 5)",
 						"type": "Expression"
 					},
 					"activities": [
@@ -54,7 +59,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "real",
+								"variableName": "iter",
 								"value": {
 									"value": "@add(variables('iter++'),1)",
 									"type": "Expression"
@@ -66,7 +71,7 @@
 				}
 			},
 			{
-				"name": "Set variable2",
+				"name": "Set variable4",
 				"type": "SetVariable",
 				"dependsOn": [],
 				"policy": {
