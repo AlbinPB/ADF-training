@@ -254,6 +254,9 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[updatee]"
+				},
 				"linkedServiceName": {
 					"referenceName": "staging",
 					"type": "LinkedServiceReference"
