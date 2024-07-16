@@ -66,6 +66,15 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
 		},
+		"staging_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'staging'",
+			"defaultValue": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=staging"
+		},
+		"staging_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'staging'"
+		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
@@ -111,6 +120,10 @@
 			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
 		},
 		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
+		},
+		"staging_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
 		},
@@ -276,6 +289,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"staging_connectionString": {
+						"value": "[parameters('staging_connectionString')]"
+					},
+					"staging_password": {
+						"value": "[parameters('staging_password')]"
+					},
+					"staging_properties_typeProperties_userName": {
+						"value": "[parameters('staging_properties_typeProperties_userName')]"
 					}
 				}
 			},

@@ -66,6 +66,15 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'lsSTRtoDB'"
 		},
+		"staging_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'staging'",
+			"defaultValue": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=staging"
+		},
+		"staging_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'staging'"
+		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
@@ -111,6 +120,10 @@
 			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
 		},
 		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Albin"
+		},
+		"staging_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
 		}
@@ -1707,6 +1720,304 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DelimitedText17')]",
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable10')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Activity1_16_07_24')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "blob-sql",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"additionalColumns": [
+									{
+										"name": "createdate",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								],
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "StudentId",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StudentId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Student code",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StudentCode",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Student name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "StudentName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Date",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "Language",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Language",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Maths",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Maths",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Phiysics",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Physics",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Chemistry",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Chemistry",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Computersicence",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ComputerScience",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "createdate",
+											"type": "String"
+										},
+										"sink": {
+											"name": "stagecreateddate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Excel1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable18",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "stageToMaster",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "blob-sql",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[TransferData]"
+						},
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Insert",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "stageToMaster",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {}
+					},
+					{
+						"name": "Update",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "stageToMaster",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {}
+					},
+					{
+						"name": "delete",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "stageToMaster",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Sharmila"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Excel1')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable18')]",
+				"[concat(variables('factoryId'), '/linkedServices/staging')]"
 			]
 		},
 		{
@@ -6293,6 +6604,60 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Excel1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage4",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Exam",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Student_Data.xlsx",
+						"container": "student-details"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage4')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/HR_emp')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -7136,6 +7501,75 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_Des_New')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable18')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "StudentId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Date",
+						"type": "date"
+					},
+					{
+						"name": "Language",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Maths",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Physics",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Chemistry",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ComputerScience",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "stagecreateddate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Stage",
+					"table": "StudentData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/staging')]"
 			]
 		},
 		{
@@ -8042,6 +8476,30 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('lsSTRtoDB_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "IR-self",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IR-self')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/staging')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('staging_connectionString')]",
+					"userName": "[parameters('staging_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('staging_password')]"
+					}
 				},
 				"connectVia": {
 					"referenceName": "IR-self",
@@ -9166,6 +9624,100 @@
 				"[concat(variables('factoryId'), '/datasets/DelimitedText16')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable9')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable10')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Master')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Activity1_16_07_24",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://prod-16.eastus.logic.azure.com:443/workflows/f068b884b5714daf9892a67f8402037e/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=YxUzaspTRRthHeAg672DaYhmZXhWQnorX60xM3D4VGw",
+							"body": {
+								"value": "{\n    \"details\": \"The Pipline - @{pipeline().Pipeline} has Failed\" ,\n    \"header\": \"Pipeline Run Was Failed\",\n    \"reciever\":\"albin.b@datasemantics\"\n    ,\"color\":\"red\"\n}\n",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Web1_copy1",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://prod-16.eastus.logic.azure.com:443/workflows/f068b884b5714daf9892a67f8402037e/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=YxUzaspTRRthHeAg672DaYhmZXhWQnorX60xM3D4VGw",
+							"body": {
+								"value": "{\n    \"details\": \"The Pipline - @{pipeline().Pipeline} has Successfully\" ,\n    \"header\": \"Pipeline Run Was Successful\",\n    \"reciever\":\"albin.b@datasemantics\",\n    \"color\":\"Green\"\n    \n}\n",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Sharmila"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Activity1_16_07_24')]"
 			]
 		}
 	]

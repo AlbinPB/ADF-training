@@ -47,6 +47,12 @@
 		"lsSTRtoDB_connectionString": {
 			"value": ""
 		},
+		"staging_connectionString": {
+			"value": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=staging"
+		},
+		"staging_password": {
+			"value": ""
+		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"value": "Albin"
 		},
@@ -81,6 +87,9 @@
 			"value": "https://jsonplaceholder.typicode.com/todos"
 		},
 		"SqlServer1_properties_typeProperties_userName": {
+			"value": "Albin"
+		},
+		"staging_properties_typeProperties_userName": {
 			"value": "Albin"
 		}
 	}
