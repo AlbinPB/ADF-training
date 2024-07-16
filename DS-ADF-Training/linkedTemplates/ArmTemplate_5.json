@@ -1943,8 +1943,6 @@
 					{
 						"name": "Insert",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "stageToMaster",
@@ -1961,16 +1959,20 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"typeProperties": {}
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[insertt]"
+						},
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						}
 					},
 					{
 						"name": "Update",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "stageToMaster",
+								"activity": "Insert",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1984,16 +1986,20 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"typeProperties": {}
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[updatee]"
+						},
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						}
 					},
 					{
 						"name": "delete",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "stageToMaster",
+								"activity": "Update",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2007,7 +2013,13 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"typeProperties": {}
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[deletee]"
+						},
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
