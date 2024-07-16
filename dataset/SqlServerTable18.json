@@ -1,0 +1,64 @@
+{
+	"name": "SqlServerTable18",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "StudentId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "Language",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Maths",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Physics",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Chemistry",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComputerScience",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "stagecreateddate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "Stage",
+			"table": "StudentData"
+		}
+	}
+}
