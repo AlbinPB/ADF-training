@@ -211,6 +211,8 @@
 			{
 				"name": "Insert",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "stageToMaster",
@@ -231,6 +233,8 @@
 			{
 				"name": "Update",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "stageToMaster",
@@ -251,6 +255,8 @@
 			{
 				"name": "delete",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "stageToMaster",
