@@ -1760,6 +1760,7 @@
 							},
 							"sink": {
 								"type": "SqlServerSink",
+								"preCopyScript": "truncate table  [Stage].[StudentData]",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false
 							},
@@ -2096,7 +2097,7 @@
 							"headers": {},
 							"url": "https://prod-16.eastus.logic.azure.com:443/workflows/f068b884b5714daf9892a67f8402037e/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=YxUzaspTRRthHeAg672DaYhmZXhWQnorX60xM3D4VGw",
 							"body": {
-								"value": "{\n    \"details\": \"The Pipline - @{pipeline().Pipeline}, Id - @{pipeline().RunId} has Successfully Ran\n        \" ,\n    \"header\": \"Pipeline Run Was Successful\",\n    \"reciever\":\"albin.b@datasemantics.co\",\n    \"color\":\"Green\"\n    \n}\n",
+								"value": "{\n    \"details\": \"The Pipline - @{pipeline().Pipeline}, Id - @{pipeline().RunId} has Successfully Ran\n        \" ,\n    \"header\": \"Pipeline Run Was Successful\",\n    \"reciever\":\"sharmila.s@datasemantics.co\",\n    \"color\":\"Green\"\n    \n}\n",
 								"type": "Expression"
 							}
 						}
