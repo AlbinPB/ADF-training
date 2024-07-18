@@ -1,16 +1,16 @@
 {
-	"name": "SqlServerTable20",
+	"name": "AzureSqlTable19",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "staging",
+			"referenceName": "testAzure",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "SqlServerTable",
+		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "Stage",
-			"table": "Accounts"
+			"schema": "dbo",
+			"table": "aa"
 		}
 	}
 }

@@ -1,0 +1,63 @@
+{
+	"name": "SqlServerTable21",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fullName",
+				"type": "varchar"
+			},
+			{
+				"name": "country",
+				"type": "varchar"
+			},
+			{
+				"name": "email",
+				"type": "varchar"
+			},
+			{
+				"name": "phone",
+				"type": "varchar"
+			},
+			{
+				"name": "accountCreated",
+				"type": "date"
+			},
+			{
+				"name": "accountId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "accountBalance",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "created",
+				"type": "date"
+			},
+			{
+				"name": "stagecreateddate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "Stage",
+			"table": "Accounts"
+		}
+	}
+}
