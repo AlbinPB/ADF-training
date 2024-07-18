@@ -1,0 +1,72 @@
+{
+	"name": "flatten2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json7",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SqlServerTable19",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          fullName as string,",
+				"          country as string,",
+				"          email as string,",
+				"          phone as string,",
+				"          accountCreated as string,",
+				"          accounts as (accountId as integer, accountBalance as integer, created as string)[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
+				"source1 aggregate(boby = collect(@(id = id,fullName = fullName,country = country,email= email,phone= phone, accountid=accounts.accountId,balance = accounts.accountBalance,created = accounts.created))) ~> aggregate1",
+				"aggregate1 foldDown(unroll(boby),",
+				"     mapColumn(",
+				"          id = boby.id,",
+				"          fullName = boby.fullName,",
+				"          country = boby.country,",
+				"          email = boby.email,",
+				"          phone = boby.phone,",
+				"          accountid = boby.accountid,",
+				"          balance = boby.balance,",
+				"          created = boby.created",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
