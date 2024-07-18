@@ -1,0 +1,16 @@
+{
+	"name": "SqlServerTable20",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "accounts"
+		}
+	}
+}
