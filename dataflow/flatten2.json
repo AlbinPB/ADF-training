@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable16",
+						"referenceName": "AzureSqlTable18",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -24,9 +24,6 @@
 			"transformations": [
 				{
 					"name": "flatten1"
-				},
-				{
-					"name": "cast1"
 				}
 			],
 			"scriptLines": [
@@ -57,17 +54,12 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1",
-				"flatten1 cast(output(",
-				"          accountId as long",
-				"     ),",
-				"     errors: true) ~> cast1",
-				"cast1 sink(allowSchemaDrift: true,",
+				"flatten1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     truncate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
