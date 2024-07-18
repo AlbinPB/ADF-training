@@ -5,6 +5,8 @@
 			{
 				"name": "Data flow1",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -29,8 +31,6 @@
 			{
 				"name": "Copy data1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Data flow1",
@@ -64,6 +64,7 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
+						"preCopyScript": "truncate table stage.accounts",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
@@ -216,8 +217,6 @@
 			{
 				"name": "Stored procedure1",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data1",
@@ -233,157 +232,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
-			},
-			{
-				"name": "Copy data2",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "JsonSource",
-						"additionalColumns": [
-							{
-								"name": "stagecreatedate",
-								"value": {
-									"value": "@utcnow()",
-									"type": "Expression"
-								}
-							}
-						],
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "JsonReadSettings"
-						}
-					},
-					"sink": {
-						"type": "SqlServerSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "$['id']"
-								},
-								"sink": {
-									"name": "id",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"path": "$['fullName']"
-								},
-								"sink": {
-									"name": "fullName",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['country']"
-								},
-								"sink": {
-									"name": "country",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['email']"
-								},
-								"sink": {
-									"name": "email",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['phone']"
-								},
-								"sink": {
-									"name": "phone",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['accountCreated']"
-								},
-								"sink": {
-									"name": "accountCreated",
-									"type": "DateTime"
-								}
-							},
-							{
-								"source": {
-									"path": "$['accounts'][0]['accountId']"
-								},
-								"sink": {
-									"name": "accountId",
-									"type": "Int64"
-								}
-							},
-							{
-								"source": {
-									"path": "$['accounts'][0]['accountBalance']"
-								},
-								"sink": {
-									"name": "accountBalance",
-									"type": "Decimal"
-								}
-							},
-							{
-								"source": {
-									"path": "$['accounts'][0]['created']"
-								},
-								"sink": {
-									"name": "created",
-									"type": "DateTime"
-								}
-							},
-							{
-								"source": {
-									"path": "$['stagecreatedate']"
-								},
-								"sink": {
-									"name": "stagecreateddate",
-									"type": "DateTime"
-								}
-							}
-						]
-					}
+					"storedProcedureName": "[dbo].[sp_dim_tblAccounts]"
 				},
-				"inputs": [
-					{
-						"referenceName": "Json9",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "SqlServerTable21",
-						"type": "DatasetReference"
-					}
-				]
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"folder": {
