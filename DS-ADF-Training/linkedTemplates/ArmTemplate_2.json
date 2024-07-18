@@ -29,27 +29,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_Des_New'"
 		},
-		"LS_advWorks_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_advWorks'"
-		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
 		},
 		"LS_Des_New_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Albin"
-		},
-		"LS_advWorks_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "DESKTOP-PIKNNDF\\SQLEXPRESS01"
-		},
-		"LS_advWorks_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "AdventureWorks2008R2"
-		},
-		"LS_advWorks_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
 		}
@@ -58,6 +42,58 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Excel1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage4",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Exam",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Student_Data.xlsx",
+						"container": "student-details"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Json3')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -756,32 +792,6 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('LS_Des_New_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_advWorks')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('LS_advWorks_properties_typeProperties_server')]",
-					"database": "[parameters('LS_advWorks_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "Windows",
-					"userName": "[parameters('LS_advWorks_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_advWorks_password')]"
 					}
 				},
 				"connectVia": {

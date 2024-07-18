@@ -13,6 +13,25 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable10')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "trail"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTable11')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -364,6 +383,25 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable20')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "accounts"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTable3')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -632,128 +670,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/des_employee')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_destination",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "jobtitle",
-						"type": "varchar"
-					},
-					{
-						"name": "Birthdate",
-						"type": "date"
-					},
-					{
-						"name": "Gender",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "1000"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/emp')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_advWorks",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "BusinessEntityID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "NationalIDNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LoginID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OrganizationNode",
-						"type": "hierarchyid"
-					},
-					{
-						"name": "OrganizationLevel",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "JobTitle",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BirthDate",
-						"type": "date"
-					},
-					{
-						"name": "MaritalStatus",
-						"type": "nchar"
-					},
-					{
-						"name": "Gender",
-						"type": "nchar"
-					},
-					{
-						"name": "HireDate",
-						"type": "date"
-					},
-					{
-						"name": "SalariedFlag",
-						"type": "bit"
-					},
-					{
-						"name": "VacationHours",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "SickLeaveHours",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "CurrentFlag",
-						"type": "bit"
-					},
-					{
-						"name": "rowguid",
-						"type": "uniqueidentifier"
-					},
-					{
-						"name": "ModifiedDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "HumanResources",
-					"table": "Employee"
-				}
 			},
 			"dependsOn": []
 		}
