@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable13",
+						"referenceName": "AzureSqlTable15",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -27,6 +27,9 @@
 				},
 				{
 					"name": "flatten1"
+				},
+				{
+					"name": "flatten2"
 				}
 			],
 			"scriptLines": [
@@ -43,7 +46,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'arrayOfDocuments') ~> source1",
-				"source1 aggregate(boby = collect(@(id = id,fullName = fullName,country = country,email= email,phone= phone,accountCreated=accountCreated, accountid=accounts.accountId,balance = accounts.accountBalance,created = accounts.created))) ~> aggregate1",
+				"source1 aggregate(boby = collect(@(id = id,fullName = fullName,country = country,email= email,phone= phone,accountCreated=accountCreated)),",
+				"          account = collect(@(accountid = accounts.accountId,accountBalance = accounts.accountBalance,created=accounts.created))) ~> aggregate1",
 				"aggregate1 foldDown(unroll(boby),",
 				"     mapColumn(",
 				"          id = boby.id,",
@@ -52,13 +56,19 @@
 				"          email = boby.email,",
 				"          phone = boby.phone,",
 				"          accountCreated = boby.accountCreated,",
-				"          accountid = boby.accountid,",
-				"          balance = boby.balance,",
-				"          created = boby.created",
+				"          account = account",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1",
-				"flatten1 sink(allowSchemaDrift: true,",
+				"flatten1 foldDown(unroll(account),",
+				"     mapColumn(",
+				"          accountid = account.accountid,",
+				"          accountBalance = account.accountBalance,",
+				"          created = account.created",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten2",
+				"flatten2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
