@@ -75,6 +75,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'staging'"
 		},
+		"testAzure_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'testAzure'"
+		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
@@ -166,6 +170,9 @@
 					"AzureBlobStorage4_connectionString": {
 						"value": "[parameters('AzureBlobStorage4_connectionString')]"
 					},
+					"testAzure_connectionString": {
+						"value": "[parameters('testAzure_connectionString')]"
+					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"
 					},
@@ -212,18 +219,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"AzureBlobStorage1_connectionString": {
-						"value": "[parameters('AzureBlobStorage1_connectionString')]"
-					},
-					"LS_Adv_New_connectionString": {
-						"value": "[parameters('LS_Adv_New_connectionString')]"
-					},
-					"LS_Adv_New_password": {
-						"value": "[parameters('LS_Adv_New_password')]"
-					},
-					"LS_Adv_New_properties_typeProperties_userName": {
-						"value": "[parameters('LS_Adv_New_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -244,6 +239,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"LS_Adv_New_connectionString": {
+						"value": "[parameters('LS_Adv_New_connectionString')]"
+					},
+					"LS_Adv_New_password": {
+						"value": "[parameters('LS_Adv_New_password')]"
 					},
 					"LS_Des_New_connectionString": {
 						"value": "[parameters('LS_Des_New_connectionString')]"
@@ -271,6 +275,9 @@
 					},
 					"staging_password": {
 						"value": "[parameters('staging_password')]"
+					},
+					"LS_Adv_New_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Adv_New_properties_typeProperties_userName')]"
 					},
 					"LS_Des_New_properties_typeProperties_userName": {
 						"value": "[parameters('LS_Des_New_properties_typeProperties_userName')]"

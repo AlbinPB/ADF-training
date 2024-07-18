@@ -53,6 +53,9 @@
 		"staging_password": {
 			"value": ""
 		},
+		"testAzure_connectionString": {
+			"value": ""
+		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"value": "Albin"
 		},
