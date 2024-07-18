@@ -2042,6 +2042,29 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Stored procedure1",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {}
 					}
 				],
 				"policy": {
@@ -5244,7 +5267,28 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "accounts"
+					"table": "acc"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable15')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADVworksMINI",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "acc"
 				}
 			},
 			"dependsOn": [
@@ -7118,7 +7162,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "JsonData.txt",
+						"fileName": "json.json",
 						"container": "account"
 					}
 				},
@@ -9390,16 +9434,13 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AzureSqlTable13",
+								"referenceName": "AzureSqlTable15",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
 						}
 					],
 					"transformations": [
-						{
-							"name": "aggregate1"
-						},
 						{
 							"name": "flatten1"
 						}
@@ -9417,18 +9458,18 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
-						"     documentForm: 'documentPerLine') ~> source1",
-						"source1 aggregate(boby = collect(@(id = id,fullName = fullName,country = country,email= email,phone= phone, accountid=accounts.accountId,balance = accounts.accountBalance,created = accounts.created))) ~> aggregate1",
-						"aggregate1 foldDown(unroll(boby),",
+						"     documentForm: 'arrayOfDocuments') ~> source1",
+						"source1 foldDown(unroll(accounts),",
 						"     mapColumn(",
-						"          id = boby.id,",
-						"          fullName = boby.fullName,",
-						"          country = boby.country,",
-						"          email = boby.email,",
-						"          phone = boby.phone,",
-						"          accountid = boby.accountid,",
-						"          balance = boby.balance,",
-						"          created = boby.created",
+						"          id,",
+						"          fullName,",
+						"          country,",
+						"          email,",
+						"          phone,",
+						"          accountCreated,",
+						"          accountId = accounts.accountId,",
+						"          accountBalance = accounts.accountBalance,",
+						"          created = accounts.created",
 						"     ),",
 						"     skipDuplicateMapInputs: false,",
 						"     skipDuplicateMapOutputs: false) ~> flatten1",
@@ -9448,7 +9489,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json7')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable13')]"
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable15')]"
 			]
 		},
 		{

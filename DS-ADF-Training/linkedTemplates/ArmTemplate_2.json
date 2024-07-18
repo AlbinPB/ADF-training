@@ -20,20 +20,7 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_Adv_New'"
 		},
-		"LS_Des_New_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_Des_New'",
-			"defaultValue": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=ADF"
-		},
-		"LS_Des_New_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_Des_New'"
-		},
 		"LS_Adv_New_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "Albin"
-		},
-		"LS_Des_New_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
 		}
@@ -42,6 +29,31 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText9')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage3",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Excel1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -213,7 +225,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "JsonData.txt",
+						"fileName": "json.json",
 						"container": "account"
 					}
 				},
@@ -770,28 +782,6 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('LS_Adv_New_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "IR-self",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_Des_New')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_Des_New_connectionString')]",
-					"userName": "[parameters('LS_Des_New_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_Des_New_password')]"
 					}
 				},
 				"connectVia": {

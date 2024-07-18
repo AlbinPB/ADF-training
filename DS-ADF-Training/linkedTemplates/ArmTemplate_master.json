@@ -222,17 +222,8 @@
 					"LS_Adv_New_password": {
 						"value": "[parameters('LS_Adv_New_password')]"
 					},
-					"LS_Des_New_connectionString": {
-						"value": "[parameters('LS_Des_New_connectionString')]"
-					},
-					"LS_Des_New_password": {
-						"value": "[parameters('LS_Des_New_password')]"
-					},
 					"LS_Adv_New_properties_typeProperties_userName": {
 						"value": "[parameters('LS_Adv_New_properties_typeProperties_userName')]"
-					},
-					"LS_Des_New_properties_typeProperties_userName": {
-						"value": "[parameters('LS_Des_New_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -254,6 +245,12 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"LS_Des_New_connectionString": {
+						"value": "[parameters('LS_Des_New_connectionString')]"
+					},
+					"LS_Des_New_password": {
+						"value": "[parameters('LS_Des_New_password')]"
+					},
 					"LS_advWorks_password": {
 						"value": "[parameters('LS_advWorks_password')]"
 					},
@@ -274,6 +271,9 @@
 					},
 					"staging_password": {
 						"value": "[parameters('staging_password')]"
+					},
+					"LS_Des_New_properties_typeProperties_userName": {
+						"value": "[parameters('LS_Des_New_properties_typeProperties_userName')]"
 					},
 					"LS_advWorks_properties_typeProperties_server": {
 						"value": "[parameters('LS_advWorks_properties_typeProperties_server')]"
