@@ -1,0 +1,12 @@
+{
+	"name": "RestService4",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://linkedin-data-api.p.rapidapi.com/search-employees?companyId=1441&start=0&geoIds=90009735%2C103035651",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
