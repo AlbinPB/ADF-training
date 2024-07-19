@@ -38,6 +38,10 @@
 		"RestService3_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
+		},
+		"RestService4_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://linkedin-data-api.p.rapidapi.com/search-employees?companyId=1441&start=0&geoIds=90009735%2C103035651"
 		}
 	},
 	"variables": {
@@ -289,6 +293,21 @@
 				"type": "RestService",
 				"typeProperties": {
 					"url": "[parameters('RestService3_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService4')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService4_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
@@ -595,27 +614,6 @@
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable15')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ADVworksMINI",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "acc"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ADVworksMINI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable16')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {

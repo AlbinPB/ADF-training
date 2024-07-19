@@ -13,6 +13,167 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable19')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "stage",
+					"table": "Account"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "USsales"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable20')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Stage",
+					"table": "Accounts"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable21')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fullName",
+						"type": "varchar"
+					},
+					{
+						"name": "country",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "phone",
+						"type": "varchar"
+					},
+					{
+						"name": "accountCreated",
+						"type": "date"
+					},
+					{
+						"name": "accountId",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "accountBalance",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "created",
+						"type": "date"
+					},
+					{
+						"name": "stagecreateddate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Stage",
+					"table": "Accounts"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable22')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "stage",
+					"table": "linkedin"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_destination",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "allSales"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTable4')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -953,19 +1114,19 @@
 					],
 					"scriptLines": [
 						"source(output(",
-						"          id as integer,",
-						"          fullName as string,",
+						"          accountCreated as date,",
+						"          accounts as (accountBalance as integer, accountId as long, created as date)[],",
 						"          country as string,",
 						"          email as string,",
-						"          phone as string,",
-						"          accountCreated as string,",
-						"          accounts as (accountId as integer, accountBalance as integer, created as string)[]",
+						"          fullName as string,",
+						"          id as short,",
+						"          phone as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     documentForm: 'arrayOfDocuments') ~> source1",
-						"source1 foldDown(unroll(accounts),",
+						"source1 foldDown(unroll(accounts, accounts),",
 						"     mapColumn(",
 						"          id,",
 						"          fullName,",
@@ -985,6 +1146,7 @@
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
+						"     recreate:true,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -993,804 +1155,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/orderDetail')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "project"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "SalesOrderDetail",
-								"type": "DatasetReference"
-							},
-							"name": "orderDetail"
-						},
-						{
-							"dataset": {
-								"referenceName": "SalesOrderHeader",
-								"type": "DatasetReference"
-							},
-							"name": "OrderHeader"
-						},
-						{
-							"dataset": {
-								"referenceName": "Customer",
-								"type": "DatasetReference"
-							},
-							"name": "customer"
-						},
-						{
-							"dataset": {
-								"referenceName": "product",
-								"type": "DatasetReference"
-							},
-							"name": "product"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable1",
-								"type": "DatasetReference"
-							},
-							"name": "OrderDetails"
-						}
-					],
-					"transformations": [
-						{
-							"name": "productID"
-						},
-						{
-							"name": "CustomerID"
-						},
-						{
-							"name": "sales"
-						},
-						{
-							"name": "select1"
-						},
-						{
-							"name": "select2"
-						},
-						{
-							"name": "select3"
-						},
-						{
-							"name": "select4"
-						},
-						{
-							"name": "derivedColumn1"
-						},
-						{
-							"name": "select5"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          SalesOrderDetailID as integer,",
-						"          OrderQty as integer,",
-						"          ProductID as integer,",
-						"          UnitPrice as decimal(19,4),",
-						"          UnitPriceDiscount as decimal(19,4),",
-						"          LineTotal as decimal(38,6),",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> orderDetail",
-						"source(output(",
-						"          SalesOrderID as integer,",
-						"          RevisionNumber as integer,",
-						"          OrderDate as timestamp,",
-						"          DueDate as timestamp,",
-						"          ShipDate as timestamp,",
-						"          Status as integer,",
-						"          OnlineOrderFlag as boolean,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as integer,",
-						"          ShipToAddressID as integer,",
-						"          BillToAddressID as integer,",
-						"          ShipMethod as string,",
-						"          CreditCardApprovalCode as string,",
-						"          SubTotal as decimal(19,4),",
-						"          TaxAmt as decimal(19,4),",
-						"          Freight as decimal(19,4),",
-						"          TotalDue as decimal(19,4),",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> OrderHeader",
-						"source(output(",
-						"          CustomerID as integer,",
-						"          NameStyle as boolean,",
-						"          Title as string,",
-						"          FirstName as string,",
-						"          MiddleName as string,",
-						"          LastName as string,",
-						"          Suffix as string,",
-						"          CompanyName as string,",
-						"          SalesPerson as string,",
-						"          EmailAddress as string,",
-						"          Phone as string,",
-						"          PasswordHash as string,",
-						"          PasswordSalt as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> customer",
-						"source(output(",
-						"          ProductID as integer,",
-						"          Name as string,",
-						"          ProductNumber as string,",
-						"          Color as string,",
-						"          StandardCost as decimal(19,4),",
-						"          ListPrice as decimal(19,4),",
-						"          Size as string,",
-						"          Weight as decimal(8,2),",
-						"          ProductCategoryID as integer,",
-						"          ProductModelID as integer,",
-						"          SellStartDate as timestamp,",
-						"          SellEndDate as timestamp,",
-						"          DiscontinuedDate as timestamp,",
-						"          ThumbNailPhoto as binary,",
-						"          ThumbnailPhotoFileName as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> product",
-						"select1, select4 join(select1@ProductID == select4@ProductID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> productID",
-						"select2, select3 join(select2@CustomerID == select3@CustomerID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> CustomerID",
-						"productID, CustomerID join(select1@SalesOrderID == select2@SalesOrderID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> sales",
-						"orderDetail select(mapColumn(",
-						"          SalesOrderID,",
-						"          OrderQty,",
-						"          ProductID,",
-						"          UnitPrice",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"OrderHeader select(mapColumn(",
-						"          SalesOrderID,",
-						"          Status,",
-						"          CustomerID",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"customer select(mapColumn(",
-						"          CustomerID,",
-						"          FirstName,",
-						"          MiddleName,",
-						"          LastName,",
-						"          SalesPerson,",
-						"          EmailAddress,",
-						"          Phone",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select3",
-						"product select(mapColumn(",
-						"          ProductID,",
-						"          Name",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select4",
-						"sales derive(TotalPrice = OrderQty*UnitPrice) ~> derivedColumn1",
-						"derivedColumn1 select(mapColumn(",
-						"          SalesOrderID = select1@SalesOrderID,",
-						"          ProductID = select1@ProductID,",
-						"          CustomerID = select3@CustomerID,",
-						"          FirstName,",
-						"          MiddleName,",
-						"          LastName,",
-						"          EmailAddress,",
-						"          Phone,",
-						"          Product_Name = Name,",
-						"          UnitPrice,",
-						"          OrderQty,",
-						"          Status,",
-						"          TotalPrice,",
-						"          SalesPerson",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select5",
-						"select5 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> OrderDetails"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/powerquery1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "WranglingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"name": "DelimitedText13",
-							"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DelimitedText13",
-							"dataset": {
-								"referenceName": "DelimitedText13",
-								"type": "DatasetReference"
-							}
-						},
-						{
-							"name": "DelimitedText14",
-							"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DelimitedText14",
-							"dataset": {
-								"referenceName": "DelimitedText14",
-								"type": "DatasetReference"
-							}
-						}
-					],
-					"script": "section Section1;\r\nshared DelimitedText13 = let AdfDoc = AzureStorage.BlobContents(\"https://adfds2024.blob.core.windows.net/project/customer.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared DelimitedText14 = let AdfDoc = AzureStorage.BlobContents(\"https://adfds2024.blob.core.windows.net/project/sales.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"DelimitedText13\",\r\n  #\"Merged queries\" = Table.NestedJoin(Source, {\"CustomerID\"}, DelimitedText14, {\"CustomerID\"}, \"DelimitedText14\", JoinKind.Inner),\r\n  #\"Expanded DelimitedText14\" = Table.ExpandTableColumn(#\"Merged queries\", \"DelimitedText14\", {\"SalesOrderID\", \"RevisionNumber\", \"OrderDate\", \"DueDate\", \"ShipDate\", \"Status\", \"OnlineOrderFlag\", \"SalesOrderNumber\", \"PurchaseOrderNumber\", \"AccountNumber\", \"CustomerID\", \"SalesPersonID\", \"TerritoryID\", \"BillToAddressID\", \"ShipToAddressID\", \"ShipMethodID\", \"CreditCardID\", \"CreditCardApprovalCode\", \"CurrencyRateID\", \"SubTotal\", \"TaxAmt\", \"Freight\", \"TotalDue\", \"Comment\", \"rowguid\", \"ModifiedDate\"}, {\"SalesOrderID\", \"RevisionNumber\", \"OrderDate\", \"DueDate\", \"ShipDate\", \"Status\", \"OnlineOrderFlag\", \"SalesOrderNumber\", \"PurchaseOrderNumber\", \"AccountNumber.1\", \"CustomerID.1\", \"SalesPersonID\", \"TerritoryID.1\", \"BillToAddressID\", \"ShipToAddressID\", \"ShipMethodID\", \"CreditCardID\", \"CreditCardApprovalCode\", \"CurrencyRateID\", \"SubTotal\", \"TaxAmt\", \"Freight\", \"TotalDue\", \"Comment\", \"rowguid.1\", \"ModifiedDate.1\"}),\r\n  #\"Grouped rows\" = Table.Group(#\"Expanded DelimitedText14\", {\"CustomerID.1\"}, {{\"Count\", each Table.RowCount(_), Int64.Type}}),\r\n  #\"Inserted conditional column\" = Table.AddColumn(#\"Grouped rows\", \"PurFreq\", each if [Count] >= 15 then \"High\" else if [Count] <= 14 then \"Low\" else \"n/a\") in #\"Inserted conditional column\";\r\n",
-					"documentLocale": "en-us"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/previousMonth')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "project"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DelimitedText16",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable9",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select2"
-						},
-						{
-							"name": "window1"
-						},
-						{
-							"name": "aggregate1"
-						},
-						{
-							"name": "cast1"
-						},
-						{
-							"name": "cast2"
-						},
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          RevisionNumber as string,",
-						"          OrderDate as date,",
-						"          DueDate as string,",
-						"          ShipDate as string,",
-						"          Status as string,",
-						"          OnlineOrderFlag as string,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as string,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as string,",
-						"          BillToAddressID as string,",
-						"          ShipToAddressID as string,",
-						"          ShipMethodID as string,",
-						"          CreditCardID as string,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as string,",
-						"          SubTotal as string,",
-						"          TaxAmt as string,",
-						"          Freight as string,",
-						"          TotalDue as integer,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 select(mapColumn(",
-						"          OrderDate,",
-						"          TotalDue",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"cast2 window(asc(OrderByMonth, true),",
-						"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
-						"derivedColumn1 aggregate(groupBy(OrderByMonth,",
-						"          OrderByYear),",
-						"     SUM = sum(TotalDue)) ~> aggregate1",
-						"select2 cast(output(",
-						"          OrderDate as date 'yyyy/MM/dd'",
-						"     ),",
-						"     errors: true) ~> cast1",
-						"aggregate1 cast(output(",
-						"          OrderByMonth as integer",
-						"     ),",
-						"     errors: true) ~> cast2",
-						"cast1 derive(OrderByMonth = month(OrderDate),",
-						"          OrderByYear = year(OrderDate)) ~> derivedColumn1",
-						"window1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/previousMonth_copy1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "project"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DelimitedText16",
-								"type": "DatasetReference"
-							},
-							"name": "sales"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable9",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlTable10",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select2"
-						},
-						{
-							"name": "window1"
-						},
-						{
-							"name": "byMonth"
-						},
-						{
-							"name": "cast1"
-						},
-						{
-							"name": "addMonthYear"
-						},
-						{
-							"name": "byYear"
-						},
-						{
-							"name": "window2"
-						},
-						{
-							"name": "difference"
-						},
-						{
-							"name": "difference1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          SalesOrderID as string,",
-						"          RevisionNumber as string,",
-						"          OrderDate as date,",
-						"          DueDate as string,",
-						"          ShipDate as string,",
-						"          Status as string,",
-						"          OnlineOrderFlag as string,",
-						"          SalesOrderNumber as string,",
-						"          PurchaseOrderNumber as string,",
-						"          AccountNumber as string,",
-						"          CustomerID as string,",
-						"          SalesPersonID as string,",
-						"          TerritoryID as string,",
-						"          BillToAddressID as string,",
-						"          ShipToAddressID as string,",
-						"          ShipMethodID as string,",
-						"          CreditCardID as string,",
-						"          CreditCardApprovalCode as string,",
-						"          CurrencyRateID as string,",
-						"          SubTotal as string,",
-						"          TaxAmt as string,",
-						"          Freight as string,",
-						"          TotalDue as integer,",
-						"          Comment as string,",
-						"          rowguid as string,",
-						"          ModifiedDate as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> sales",
-						"sales select(mapColumn(",
-						"          OrderDate,",
-						"          TotalDue",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"byMonth window(asc(OrderByYear, true),",
-						"     asc(OrderByMonth, true),",
-						"     PreviousMonthDue = lag(SUM, 1, 0)) ~> window1",
-						"addMonthYear aggregate(groupBy(OrderByMonth,",
-						"          OrderByYear),",
-						"     SUM = sum(TotalDue)) ~> byMonth",
-						"select2 cast(output(",
-						"          OrderDate as date 'yyyy/MM/dd'",
-						"     ),",
-						"     errors: true) ~> cast1",
-						"cast1 derive(OrderByMonth = month(OrderDate),",
-						"          OrderByYear = year(OrderDate)) ~> addMonthYear",
-						"addMonthYear aggregate(groupBy(OrderByYear),",
-						"     Sum = sum(TotalDue)) ~> byYear",
-						"byYear window(asc(OrderByYear, true),",
-						"     PreviousYearDue = lag(Sum, 1, 0)) ~> window2",
-						"window2 derive(Difference = Sum - PreviousYearDue) ~> difference",
-						"window1 derive(Difference = SUM - PreviousMonthDue) ~> difference1",
-						"difference1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
-						"difference sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/1-DBtoDB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "JobTitle",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "jobtitle",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "BirthDate",
-											"type": "DateTime",
-											"physicalType": "date"
-										},
-										"sink": {
-											"name": "Birthdate",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "nchar"
-										},
-										"sink": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "nchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "HR_emp",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "assignment"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-20T11:32:47Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/2-STRtoDB')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"additionalColumns": [
-									{
-										"name": "Country",
-										"value": "US"
-									}
-								],
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ProductID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ProductID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Date",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Date",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Zip",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Zip",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Units",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Units",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Revenue",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Revenue",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Country",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Country",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "USsales",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SqlServerTable2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "assignment"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-05-20T11:32:47Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/USsales')]"
-			]
 		}
 	]
 }

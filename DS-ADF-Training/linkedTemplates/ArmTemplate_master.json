@@ -123,6 +123,10 @@
 			"type": "string",
 			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
 		},
+		"RestService4_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://linkedin-data-api.p.rapidapi.com/search-employees?companyId=1441&start=0&geoIds=90009735%2C103035651"
+		},
 		"SqlServer1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
@@ -181,6 +185,9 @@
 					},
 					"RestService3_properties_typeProperties_url": {
 						"value": "[parameters('RestService3_properties_typeProperties_url')]"
+					},
+					"RestService4_properties_typeProperties_url": {
+						"value": "[parameters('RestService4_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -370,6 +377,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'DS-ADF-Training_ArmTemplate_5')]"
+			]
+		},
+		{
+			"name": "DS-ADF-Training_ArmTemplate_7",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_7.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DS-ADF-Training_ArmTemplate_6')]"
 			]
 		}
 	]

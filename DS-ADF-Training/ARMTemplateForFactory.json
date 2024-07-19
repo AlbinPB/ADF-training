@@ -123,6 +123,10 @@
 			"type": "string",
 			"defaultValue": "https://jsonplaceholder.typicode.com/todos"
 		},
+		"RestService4_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://linkedin-data-api.p.rapidapi.com/search-employees?companyId=1441&start=0&geoIds=90009735%2C103035651"
+		},
 		"SqlServer1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Albin"
@@ -1727,6 +1731,190 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Activity-19-07-24')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"additionalColumns": [
+									{
+										"name": "StageCreatedDate",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								],
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"additionalHeaders": {
+									"Authorization": "Bearer 64375de68330e04b396f479d",
+									"x-rapidapi-key": "972a88d0e1msh78af3966e295685p1a0855jsnd279ff7a545f"
+								},
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['data']['items'][0]['id']"
+										},
+										"sink": {
+											"name": "id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['firstName']"
+										},
+										"sink": {
+											"name": "firstName"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['lastName']"
+										},
+										"sink": {
+											"name": "lastName"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['fullName']"
+										},
+										"sink": {
+											"name": "fullName"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['username']"
+										},
+										"sink": {
+											"name": "username"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['profile']"
+										},
+										"sink": {
+											"name": "profile"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['geoRegion']"
+										},
+										"sink": {
+											"name": "geoRegion"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data']['items'][0]['openLink']"
+										},
+										"sink": {
+											"name": "openLink"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource6",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SqlServerTable22",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Script1",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "ALTER TABLE stage.linkedin\nADD stageCreatedDate DATE DEFAULT CAST(GETDATE() AS DATE);\n",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Sharmila"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/RestResource6')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable22')]",
+				"[concat(variables('factoryId'), '/linkedServices/staging')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Activity1_16_07_24')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1965,6 +2153,8 @@
 					{
 						"name": "Data flow1",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -1976,7 +2166,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "flatten",
+								"referenceName": "flatten2",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -1995,8 +2185,6 @@
 					{
 						"name": "Copy data1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Data flow1",
@@ -2015,26 +2203,161 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
+								"type": "AzureSqlSource",
+								"additionalColumns": [
+									{
+										"name": "[[stagecreateddate]",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								],
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "SqlServerSink",
+								"preCopyScript": "truncate table stage.accounts",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false
 							},
-							"enableStaging": false
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "id",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "fullName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "fullName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "country",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "country",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "email",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "email",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "phone",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "phone",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "accountCreated",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "accountCreated",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "accountId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "accountId",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "accountBalance",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "accountBalance",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 10
+										}
+									},
+									{
+										"source": {
+											"name": "created",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "created",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "[[stagecreateddate]",
+											"type": "String"
+										},
+										"sink": {
+											"name": "stagecreateddate",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
 						},
 						"inputs": [
 							{
-								"referenceName": "accounts",
+								"referenceName": "AzureSqlTable19",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -2050,8 +2373,6 @@
 					{
 						"name": "Stored procedure1",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data1",
@@ -2068,7 +2389,13 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"typeProperties": {}
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[sp_dim_tblAccounts]"
+						},
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
@@ -2080,9 +2407,10 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/flatten')]",
-				"[concat(variables('factoryId'), '/datasets/accounts')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable20')]"
+				"[concat(variables('factoryId'), '/dataflows/flatten2')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable19')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable20')]",
+				"[concat(variables('factoryId'), '/linkedServices/staging')]"
 			]
 		},
 		{
@@ -5403,6 +5731,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable19')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "testAzure",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "aa"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/testAzure')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -7343,6 +7692,69 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Json9')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage4",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json.json",
+						"container": "account"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"fullName": {
+							"type": "string"
+						},
+						"country": {
+							"type": "string"
+						},
+						"email": {
+							"type": "string"
+						},
+						"phone": {
+							"type": "string"
+						},
+						"accountCreated": {
+							"type": "string"
+						},
+						"accounts": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"accountId": {
+										"type": "integer"
+									},
+									"accountBalance": {
+										"type": "integer"
+									},
+									"created": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage4')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -7430,6 +7842,24 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/RestService3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestResource6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService4",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService4')]"
 			]
 		},
 		{
@@ -8060,8 +8490,97 @@
 				"type": "SqlServerTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "accounts"
+					"schema": "Stage",
+					"table": "Accounts"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/staging')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable21')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fullName",
+						"type": "varchar"
+					},
+					{
+						"name": "country",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "phone",
+						"type": "varchar"
+					},
+					{
+						"name": "accountCreated",
+						"type": "date"
+					},
+					{
+						"name": "accountId",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "accountBalance",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "created",
+						"type": "date"
+					},
+					{
+						"name": "stagecreateddate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "Stage",
+					"table": "Accounts"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/staging')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable22')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "staging",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "stage",
+					"table": "linkedin"
 				}
 			},
 			"dependsOn": [
@@ -8982,6 +9501,21 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/RestService4')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService4_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -9654,19 +10188,19 @@
 					],
 					"scriptLines": [
 						"source(output(",
-						"          id as integer,",
-						"          fullName as string,",
+						"          accountCreated as date,",
+						"          accounts as (accountBalance as integer, accountId as long, created as date)[],",
 						"          country as string,",
 						"          email as string,",
-						"          phone as string,",
-						"          accountCreated as string,",
-						"          accounts as (accountId as integer, accountBalance as integer, created as string)[]",
+						"          fullName as string,",
+						"          id as short,",
+						"          phone as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     documentForm: 'arrayOfDocuments') ~> source1",
-						"source1 foldDown(unroll(accounts),",
+						"source1 foldDown(unroll(accounts, accounts),",
 						"     mapColumn(",
 						"          id,",
 						"          fullName,",
@@ -9686,6 +10220,7 @@
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
+						"     recreate:true,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
