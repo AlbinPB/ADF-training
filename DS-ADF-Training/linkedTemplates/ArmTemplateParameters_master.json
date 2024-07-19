@@ -90,7 +90,7 @@
 			"value": "https://jsonplaceholder.typicode.com/todos"
 		},
 		"RestService4_properties_typeProperties_url": {
-			"value": "https://linkedin-data-api.p.rapidapi.com/search-employees?companyId=1441&start=0&geoIds=90009735%2C103035651"
+			"value": "https://jsonplaceholder.typicode.com/comments"
 		},
 		"SqlServer1_properties_typeProperties_userName": {
 			"value": "Albin"

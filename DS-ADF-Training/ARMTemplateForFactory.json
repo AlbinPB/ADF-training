@@ -125,7 +125,7 @@
 		},
 		"RestService4_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://linkedin-data-api.p.rapidapi.com/search-employees?companyId=1441&start=0&geoIds=90009735%2C103035651"
+			"defaultValue": "https://jsonplaceholder.typicode.com/comments"
 		},
 		"SqlServer1_properties_typeProperties_userName": {
 			"type": "string",
@@ -1751,28 +1751,16 @@
 						"typeProperties": {
 							"source": {
 								"type": "RestSource",
-								"additionalColumns": [
-									{
-										"name": "StageCreatedDate",
-										"value": {
-											"value": "@utcnow()",
-											"type": "Expression"
-										}
-									}
-								],
 								"httpRequestTimeout": "00:01:40",
 								"requestInterval": "00.00:00:00.010",
 								"requestMethod": "GET",
-								"additionalHeaders": {
-									"Authorization": "Bearer 64375de68330e04b396f479d",
-									"x-rapidapi-key": "972a88d0e1msh78af3966e295685p1a0855jsnd279ff7a545f"
-								},
 								"paginationRules": {
 									"supportRFC5988": "true"
 								}
 							},
 							"sink": {
 								"type": "SqlServerSink",
+								"preCopyScript": "  drop table [staging].[Stage].[linkedin]\n",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false,
 								"tableOption": "autoCreate"
@@ -1783,7 +1771,15 @@
 								"mappings": [
 									{
 										"source": {
-											"path": "$['data']['items'][0]['id']"
+											"path": "$['postId']"
+										},
+										"sink": {
+											"name": "postId"
+										}
+									},
+									{
+										"source": {
+											"path": "$['id']"
 										},
 										"sink": {
 											"name": "id"
@@ -1791,58 +1787,26 @@
 									},
 									{
 										"source": {
-											"path": "$['data']['items'][0]['firstName']"
+											"path": "$['name']"
 										},
 										"sink": {
-											"name": "firstName"
+											"name": "name"
 										}
 									},
 									{
 										"source": {
-											"path": "$['data']['items'][0]['lastName']"
+											"path": "$['email']"
 										},
 										"sink": {
-											"name": "lastName"
+											"name": "email"
 										}
 									},
 									{
 										"source": {
-											"path": "$['data']['items'][0]['fullName']"
+											"path": "$['body']"
 										},
 										"sink": {
-											"name": "fullName"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data']['items'][0]['username']"
-										},
-										"sink": {
-											"name": "username"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data']['items'][0]['profile']"
-										},
-										"sink": {
-											"name": "profile"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data']['items'][0]['geoRegion']"
-										},
-										"sink": {
-											"name": "geoRegion"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data']['items'][0]['openLink']"
-										},
-										"sink": {
-											"name": "openLink"
+											"name": "body"
 										}
 									}
 								]
@@ -1891,12 +1855,72 @@
 								{
 									"type": "Query",
 									"text": {
-										"value": "ALTER TABLE stage.linkedin\nADD stageCreatedDate DATE DEFAULT CAST(GETDATE() AS DATE);\n",
+										"value": "ALTER TABLE stage.linkedin\nADD stageCreatedDate DATE DEFAULT GETDATE() ;\n",
 										"type": "Expression"
 									}
 								}
 							],
 							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Script2",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "Script1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": "UPDATE stage.linkedin\nSET stageCreatedDate = CAST(GETDATE() AS DATE)\nWHERE stageCreatedDate IS NULL;"
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					},
+					{
+						"name": "Stored procedure1",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Script2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[sp_dim_tblLinkedin]"
+						},
+						"linkedServiceName": {
+							"referenceName": "staging",
+							"type": "LinkedServiceReference"
 						}
 					}
 				],
