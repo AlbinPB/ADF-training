@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage4'"
 		},
+		"AzureFunction1_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'AzureFunction1'"
+		},
 		"LS_Adv_New_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_Adv_New'",
@@ -78,6 +82,10 @@
 		"testAzure_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'testAzure'"
+		},
+		"AzureFunction1_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://albin.azurewebsites.net/api/http_trigger1?code=pL3cSO1RAzv4AqWw8ks8iI-ZQyU_Lk24RxOziZAHEtwvAzFuGK33WA%3D%3D"
 		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"type": "string",
@@ -174,8 +182,14 @@
 					"AzureBlobStorage4_connectionString": {
 						"value": "[parameters('AzureBlobStorage4_connectionString')]"
 					},
+					"AzureFunction1_functionKey": {
+						"value": "[parameters('AzureFunction1_functionKey')]"
+					},
 					"testAzure_connectionString": {
 						"value": "[parameters('testAzure_connectionString')]"
+					},
+					"AzureFunction1_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('AzureFunction1_properties_typeProperties_functionAppUrl')]"
 					},
 					"RestService1_properties_typeProperties_url": {
 						"value": "[parameters('RestService1_properties_typeProperties_url')]"

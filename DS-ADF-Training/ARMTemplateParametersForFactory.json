@@ -20,6 +20,9 @@
 		"AzureBlobStorage4_connectionString": {
 			"value": ""
 		},
+		"AzureFunction1_functionKey": {
+			"value": ""
+		},
 		"LS_Adv_New_connectionString": {
 			"value": "Integrated Security=True;Data Source=DESKTOP-PIKNNDF\\SQLEXPRESS;Initial Catalog=AdventureWorks2008R2"
 		},
@@ -55,6 +58,9 @@
 		},
 		"testAzure_connectionString": {
 			"value": ""
+		},
+		"AzureFunction1_properties_typeProperties_functionAppUrl": {
+			"value": "https://albin.azurewebsites.net/api/http_trigger1?code=pL3cSO1RAzv4AqWw8ks8iI-ZQyU_Lk24RxOziZAHEtwvAzFuGK33WA%3D%3D"
 		},
 		"LS_Adv_New_properties_typeProperties_userName": {
 			"value": "Albin"
