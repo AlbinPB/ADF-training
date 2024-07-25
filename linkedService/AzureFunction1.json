@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "AzureFunction",
 		"typeProperties": {
-			"functionAppUrl": "https://albin.azurewebsites.net",
+			"functionAppUrl": "https://albin.azurewebsites.net/api/http_trigger1?code=kTqq3mkMvvEzaOvyt8e3neAnhoJ1ShLKOZT-aP2y6cQLAzFutNnVrQ%3D%3D",
 			"authentication": "Anonymous"
 		}
 	}
