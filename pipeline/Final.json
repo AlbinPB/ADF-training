@@ -129,7 +129,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[InsertIntoStageTable]"
+					"storedProcedureName": "[dbo].[InsertIntoStageTableV2]"
 				},
 				"linkedServiceName": {
 					"referenceName": "staging",
