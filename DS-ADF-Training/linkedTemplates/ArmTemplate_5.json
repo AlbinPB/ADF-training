@@ -353,7 +353,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "type"
+					"table": "types"
 				}
 			},
 			"dependsOn": []
