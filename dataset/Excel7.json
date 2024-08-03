@@ -1,0 +1,21 @@
+{
+	"name": "Excel7",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage4",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sales",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "cleaned.xlsx",
+				"container": "final"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}

@@ -1,0 +1,61 @@
+{
+	"name": "SqlServerTable27",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "InvoiceNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Period",
+				"type": "date"
+			},
+			{
+				"name": "DueDate",
+				"type": "date"
+			},
+			{
+				"name": "InvoiceDate",
+				"type": "date"
+			},
+			{
+				"name": "FromDate",
+				"type": "date"
+			},
+			{
+				"name": "ToDate",
+				"type": "date"
+			},
+			{
+				"name": "NetAmount",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VatAmount",
+				"type": "nvarchar"
+			},
+			{
+				"name": "grossValue",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "salesv3"
+		}
+	}
+}
