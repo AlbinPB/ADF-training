@@ -288,15 +288,6 @@
 					"SqlServer1_password": {
 						"value": "[parameters('SqlServer1_password')]"
 					},
-					"lsSTRtoDB_connectionString": {
-						"value": "[parameters('lsSTRtoDB_connectionString')]"
-					},
-					"staging_connectionString": {
-						"value": "[parameters('staging_connectionString')]"
-					},
-					"staging_password": {
-						"value": "[parameters('staging_password')]"
-					},
 					"LS_Adv_New_properties_typeProperties_userName": {
 						"value": "[parameters('LS_Adv_New_properties_typeProperties_userName')]"
 					},
@@ -323,9 +314,6 @@
 					},
 					"SqlServer1_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
-					},
-					"staging_properties_typeProperties_userName": {
-						"value": "[parameters('staging_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -346,6 +334,18 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"lsSTRtoDB_connectionString": {
+						"value": "[parameters('lsSTRtoDB_connectionString')]"
+					},
+					"staging_connectionString": {
+						"value": "[parameters('staging_connectionString')]"
+					},
+					"staging_password": {
+						"value": "[parameters('staging_password')]"
+					},
+					"staging_properties_typeProperties_userName": {
+						"value": "[parameters('staging_properties_typeProperties_userName')]"
 					}
 				}
 			},
