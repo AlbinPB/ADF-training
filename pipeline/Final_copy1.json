@@ -170,10 +170,6 @@
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
 							"treatBooleanAsNumber": false,
-							"dateFormat": {
-								"value": "dd-MM-yyyy",
-								"type": "Expression"
-							},
 							"dateTimeFormat": {
 								"value": "\"dd-MM-yyyy\"",
 								"type": "Expression"
