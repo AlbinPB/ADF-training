@@ -32,10 +32,149 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "InvoiceNumber",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "InvoiceNumber",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Type",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Period",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Period",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "DueDate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DueDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "InvoiceDate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "InvoiceDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "FromDate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FromDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "ToDate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ToDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "NetAmount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "NetAmount",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "VatAmount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "VatAmount",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "grossValue",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "grossValue",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
+							"treatBooleanAsNumber": false,
+							"dateFormat": "\"dd-MM-yyyy\"",
+							"dateTimeFormat": {
+								"value": "\"dd-MM-yyyy\"",
+								"type": "Expression"
+							}
 						}
 					}
 				},
