@@ -25,7 +25,7 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
-						"preCopyScript": "truncate table dbo.salesv2",
+						"preCopyScript": "truncate table dbo.salesv3",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
@@ -41,13 +41,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Excel3",
+						"referenceName": "Excel5",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SqlServerTable23",
+						"referenceName": "SqlServerTable25",
 						"type": "DatasetReference"
 					}
 				]
@@ -82,7 +82,7 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
-						"preCopyScript": "truncate table dbo.typesv2",
+						"preCopyScript": "truncate table dbo.typesv3",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
@@ -98,13 +98,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Excel2",
+						"referenceName": "Excel6",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "SqlServerTable24",
+						"referenceName": "SqlServerTable26",
 						"type": "DatasetReference"
 					}
 				]

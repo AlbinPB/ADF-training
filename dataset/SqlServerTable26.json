@@ -1,0 +1,29 @@
+{
+	"name": "SqlServerTable26",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "staging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKTransType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BKTransType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TransDesc",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "typesv3"
+		}
+	}
+}

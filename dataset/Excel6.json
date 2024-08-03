@@ -1,0 +1,34 @@
+{
+	"name": "Excel6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage4",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Type",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "cleaned.xlsx",
+				"container": "final"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "SKTransType",
+				"type": "String"
+			},
+			{
+				"name": "BKTransType",
+				"type": "String"
+			},
+			{
+				"name": "TransDesc",
+				"type": "String"
+			}
+		]
+	}
+}
