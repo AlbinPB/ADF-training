@@ -25,7 +25,7 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
-						"preCopyScript": "truncate table dbo.sales",
+						"preCopyScript": "truncate table dbo.salesv2",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
@@ -82,7 +82,7 @@
 					},
 					"sink": {
 						"type": "SqlServerSink",
-						"preCopyScript": "truncate table dbo.types",
+						"preCopyScript": "truncate table dbo.typesv2",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false
 					},
@@ -112,6 +112,8 @@
 			{
 				"name": "Stored procedure1",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data2",
@@ -129,7 +131,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[TrialCauseWhyNotImAlbin]"
+					"storedProcedureName": "[dbo].[stagecreationv2]"
 				},
 				"linkedServiceName": {
 					"referenceName": "staging",
@@ -139,6 +141,8 @@
 			{
 				"name": "Stored procedure2",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Stored procedure1",
@@ -156,7 +160,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[finaltrial]"
+					"storedProcedureName": "[dbo].[finaltrialv2]"
 				},
 				"linkedServiceName": {
 					"referenceName": "staging",
