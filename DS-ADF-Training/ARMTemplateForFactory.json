@@ -2713,11 +2713,11 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data2",
+						"name": "types to stage",
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Copy data2_copy1",
+								"activity": "sales to stage",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2772,11 +2772,11 @@
 						]
 					},
 					{
-						"name": "Stored procedure1",
+						"name": "combine",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
-								"activity": "Copy data2",
+								"activity": "types to stage",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2799,11 +2799,11 @@
 						}
 					},
 					{
-						"name": "Stored procedure2",
+						"name": "formate date",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
-								"activity": "Stored procedure1",
+								"activity": "combine",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2826,7 +2826,7 @@
 						}
 					},
 					{
-						"name": "Copy data2_copy1",
+						"name": "sales to stage",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -3016,11 +3016,11 @@
 						]
 					},
 					{
-						"name": "Stored procedure3",
+						"name": "stage to dim",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
-								"activity": "Stored procedure2",
+								"activity": "formate date",
 								"dependencyConditions": [
 									"Succeeded"
 								]
